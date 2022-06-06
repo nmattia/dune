@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+
+SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
+SCRIPTS_DIR=$(dirname "$SCRIPT_PATH")
+ROOT="$SCRIPTS_DIR/.."
+
+TOPLEVEL=$(mktemp -d)
+echo "TOPLEVEL: $TOPLEVEL"
+
+SUBDIR="$TOPLEVEL/sub"
+mkdir -p "$SUBDIR"
+echo "SUBDIR: $SUBDIR"
+
+OUTLINK=$(mktemp -d)
+OUTLINK="$OUTLINK/link"
+echo "OUTLINK: $OUTLINK"
+
+nix build -f "$ROOT/sandbox.nix" sandboxExes \
+    --argstr user "$USER" \
+    --argstr path "$SUBDIR" \
+    --arg paths '[ /bin ]' \
+    --arg env '[]' \
+    --out-link "$OUTLINK"
+
+# TODO: check that this fails
+# TODO: set new sandboxed TMPDIR
+bash -c "cd $SUBDIR && export PATH=$OUTLINK/bin:\$PATH && ls $HOME"
+
+rmdir "$SUBDIR"
+rmdir "$TOPLEVEL"
+rm "$OUTLINK"
+rmdir "$(dirname "$OUTLINK")"
