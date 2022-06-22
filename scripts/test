@@ -2,34 +2,50 @@
 
 set -euo pipefail
 
+ROOT="$(dirname "${BASH_SOURCE[0]:-$0}")/.."
 
-SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
-SCRIPTS_DIR=$(dirname "$SCRIPT_PATH")
-ROOT="$SCRIPTS_DIR/.."
+TESTDIR=$(mktemp -d)
 
-TOPLEVEL=$(mktemp -d)
-echo "TOPLEVEL: $TOPLEVEL"
-
-SUBDIR="$TOPLEVEL/sub"
-mkdir -p "$SUBDIR"
-echo "SUBDIR: $SUBDIR"
-
-OUTLINK=$(mktemp -d)
-OUTLINK="$OUTLINK/link"
+OUTLINK="$(mktemp -d)/link"
 echo "OUTLINK: $OUTLINK"
 
-nix build -f "$ROOT/sandbox.nix" sandboxExes \
+function log() {
+    1>&2 echo "$@"
+}
+
+function run() {
+    log -n "running $@"
+    rc=0
+    "$@" || rc=$?
+    log " (rc: $rc)"
+    return "$rc"
+}
+
+# test that executables can be wrapped (even those in /bin)
+run nix build -f "$ROOT/sandbox.nix" sandboxExes \
     --argstr user "$USER" \
-    --argstr path "$SUBDIR" \
+    --argstr path "$TESTDIR" \
     --arg paths '[ /bin ]' \
     --arg env '[]' \
     --out-link "$OUTLINK"
 
-# TODO: check that this fails
-# TODO: set new sandboxed TMPDIR
-bash -c "cd $SUBDIR && export PATH=$OUTLINK/bin:\$PATH && ls $HOME"
+# Run ls from inside sandbox and assert HOME cannot be accessed
+OUTPUT=$(mktemp)
+rc=0
+run bash -c "cd $TESTDIR && export PATH=$OUTLINK/bin:\$PATH && ls $HOME" 2> "$OUTPUT" || rc=$?
+if [ "$rc" != "1" ]
+then
+    log "expecting error from ls, but got return code $rc"
+    exit 1
+fi
 
-rmdir "$SUBDIR"
-rmdir "$TOPLEVEL"
-rm "$OUTLINK"
-rmdir "$(dirname "$OUTLINK")"
+if ! grep "Operation not permitted" "$OUTPUT" >/dev/null
+then
+    log "expecting Operation not permitted error"
+    exit 1
+fi
+
+run rm "$OUTPUT"
+run rmdir "$TESTDIR"
+run rm "$OUTLINK"
+run rmdir "$(dirname "$OUTLINK")"
