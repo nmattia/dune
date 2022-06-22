@@ -1,10 +1,12 @@
 let
   lib = import ./lib.nix;
+  packages = import ./packages.nix;
+  pkgs = import <nixpkgs> { };
 in
 rec {
 
 
-  mkProfile = { user, path }: ''
+  mkProfile = { user, path }: pkgs.writeText "profile.sb" ''
     (version 1)
     (allow default)
     (allow network*)
@@ -16,22 +18,19 @@ rec {
     (allow file* (subpath "/Users/${user}/Library/Application Support"))
   '';
 
-  sandboxExeWrapper = { user, path, paths, env /* list of "FOO=BAR" */ }: builtins.toFile "sandbox-wrapper" ''
+
+  sandboxExeWrapper = { user, path, paths, env /* list of "FOO=BAR" */ }: pkgs.writeText "sandbox-wrapper" ''
     # TODO: why can't I set a shebang?
     set -euo pipefail
-    echo starting exe $(basename $0)
     export PATH=${builtins.concatStringsSep ":" paths}:$PATH
-    echo path exported
     ${ builtins.concatStringsSep "\n" (map (kv: "export ${kv}") env)}
-    echo let us go
-    profile=${builtins.toFile "profile.sb" (mkProfile {inherit user path;})}
-    echo profile:
-    cat $profile
-    /usr/bin/sandbox-exec -f $profile $(basename $0) "$@"
+    profile=${mkProfile {inherit user path;}}
+    exe=$(which $(basename "$0"))
+    /usr/bin/sandbox-exec -f "$profile" "$exe" "$@"
   '';
 
+  # note: if called directly, 'paths' should be strings for things like /bin, _not_ paths
   sandboxExes = { user, path, paths, env }: lib.runCommand "sandbox" { inherit paths; } ''
-
     export PATH=/usr/bin:/bin
 
     mkdir -p $out/bin
@@ -51,5 +50,5 @@ rec {
         echo written "$out/bin/$exe"
       done
     done
-    '';
+  '';
 }

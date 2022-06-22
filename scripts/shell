@@ -23,10 +23,10 @@ function run() {
 
 OUTLINK="$(mktemp -d)/link"
 INIT_FILE="$(mktemp)"
-run nix build -f "$ROOT/sandbox.nix" sandboxExes \
+run nix build -f "$ROOT/default.nix" \
     --argstr user "$USER" \
     --argstr path "$PWD" \
-    --arg paths '[ /bin ]' \
+    --arg packages '[ "nodejs" ]' \
     --arg env '[]' \
     --out-link "$OUTLINK"
 
