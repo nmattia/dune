@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Start a shell where all exes in /bin are sandboxed
+
+set -euo pipefail
+
+ROOT="$(dirname "${BASH_SOURCE[0]:-$0}")/.."
+
+OUTLINK="$(mktemp -d)/link"
+echo "OUTLINK: $OUTLINK"
+
+function log() {
+    1>&2 echo "$@"
+}
+
+function run() {
+    log -n "running $*"
+    rc=0
+    "$@" || rc=$?
+    log " (rc: $rc)"
+    return "$rc"
+}
+
+OUTLINK="$(mktemp -d)/link"
+INIT_FILE="$(mktemp)"
+run nix build -f "$ROOT/sandbox.nix" sandboxExes \
+    --argstr user "$USER" \
+    --argstr path "$PWD" \
+    --arg paths '[ /bin ]' \
+    --arg env '[]' \
+    --out-link "$OUTLINK"
+
+bash_args=(
+    -i # interactive
+)
+bash --init-file <(echo "PATH=$OUTLINK/bin:$PATH") "${bash_args[@]}"
+
+run rm "$OUTLINK"
+run rmdir "$(dirname "$OUTLINK")"
+run rm "$INIT_FILE"
