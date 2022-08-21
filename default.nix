@@ -1,6 +1,6 @@
 { user ? throw "Need user"
 , path ? throw "need path"
-, packages ? []
+, packages ? [ ]
 , env ? [ ]
 }:
 let

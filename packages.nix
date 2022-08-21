@@ -8,13 +8,14 @@ in
     { bin = "${npm-src}/bin"; };
 
 
-    ffmpeg =
-      let ffmpegZip = builtins.fetchurl https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
-      ffmpeg = lib.runCommand "ffmpeg" {}''
+  ffmpeg =
+    let
+      ffmpegZip = builtins.fetchurl https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
+      ffmpeg = lib.runCommand "ffmpeg" { } ''
         export PATH=/usr/bin:/bin
         mkdir -p $out/bin
         unzip ${ffmpegZip} -d $out/bin
-        '';
-      in
-      { bin = "${ffmpeg}/bin"; };
+      '';
+    in
+    { bin = "${ffmpeg}/bin"; };
 }
