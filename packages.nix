@@ -51,4 +51,10 @@ in
   rustc = { bin = "${rustToolchain}/rustc.pkg/Scripts/rustc/bin"; };
   cargo = { bin = "${rustToolchain}/cargo.pkg/Scripts/cargo/bin"; };
 
+  rustfmt =
+    let
+      rustfmt-src = builtins.fetchTarball https://github.com/rust-lang/rustfmt/releases/download/v1.5.1/rustfmt_macos-x86_64_v1.5.1.tar.gz;
+    in
+    { bin = "${rustfmt-src}"; };
+
 }
