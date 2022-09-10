@@ -57,4 +57,9 @@ in
     in
     { bin = "${rustfmt-src}"; };
 
+  wasm-pack =
+    let wasm-pack-src = builtins.fetchTarball https://github.com/rustwasm/wasm-pack/releases/download/v0.10.3/wasm-pack-v0.10.3-x86_64-apple-darwin.tar.gz;
+    in
+    { bin = "${wasm-pack-src}"; };
+
 }
