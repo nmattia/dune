@@ -14,7 +14,7 @@ let
 
     in
     lib.runCommand "rust" { } ''
-      export PATH=/usr/sbin:/usr/bin:/bin:
+      export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
       pkgutil --expand ${rust-toolchain-src} $out
       cp -r $out/rust-std.pkg/Scripts/rust-std-x86_64-apple-darwin/lib/rustlib/x86_64-apple-darwin/lib $out/rustc.pkg/Scripts/rustc/lib/rustlib/x86_64-apple-darwin/
       cp -r ${rust-std-wasm32}/rust-std-wasm32-unknown-unknown/lib/rustlib/wasm32-unknown-unknown $out/rustc.pkg/Scripts/rustc/lib/rustlib/
