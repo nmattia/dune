@@ -36,6 +36,12 @@ rec
     in
     { bin = "${npm-src}/bin"; };
 
+  cmake =
+    let
+      tarball = builtins.fetchTarball https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-macos-universal.tar.gz;
+    in
+    { bin = "${tarball}/CMake.app/Contents/bin"; };
+
 
   ffmpeg =
     let
