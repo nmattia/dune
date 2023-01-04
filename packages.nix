@@ -272,26 +272,12 @@ rec
         cp -r ${src}/. $out
         chmod -R +w $out
         cd $out
-        patch <${patch}
-        patch <${other} gcc/config/avr/t-avr
+        patch <${patch-avr-texi}
+        patch <${patch-apple-silicon}
       '';
 
-
-      other = builtins.toFile "patch" ''
-        --- old/gcc/config/avr/t-avr	2023-01-03 21:56:23
-        +++ new/gcc/config/avr/t-avr	2023-01-03 21:56:32
-        @@ -91,9 +91,6 @@
-           $(srcdir)/config/avr/avr-arch.h $(TM_H)
-         	$(CXX_FOR_BUILD) $(CXXFLAGS_FOR_BUILD) $< -o $@ $(INCLUDES)
- 
-        -$(srcdir)/doc/avr-mmcu.texi: gen-avr-mmcu-texi$(build_exeext)
-        -	$(RUN_GEN) ./$< > $@
-        -
-         s-device-specs: gen-avr-mmcu-specs$(build_exeext)
-         	rm -rf device-specs
-         	mkdir device-specs && cd device-specs && $(RUN_GEN) ../$<
-      '';
-      patch = builtins.fetchurl https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff;
+      patch-avr-texi = builtins.fetchurl https://gist.githubusercontent.com/nmattia/3f9b03705257e1e20bc9e4e5968e58ef/raw/924bb6fd6b355844e1893fa194fe08009635f7a3/gcc.patch;
+      patch-apple-silicon = builtins.fetchurl https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff;
     in
     {
       bin =
@@ -328,6 +314,30 @@ rec
           make BOOT_LDFLAGS=-Wl,-headerpad_max_install_names
           make install
         '';
+    };
+
+
+
+  avr-libc =
+    let
+      src = builtins.fetchTarball https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2;
+    in
+    {
+      lib = lib.runCommand "avr-libc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+
+        PATH=${gcc-avr.bin}/bin:$PATH
+        PATH=${avr-binutils.bin}/bin:$PATH
+
+        export ac_cv_build=aarch64-apple-darwin
+
+        ${src}/configure \
+          --prefix=$out \
+          --host=avr
+
+        make
+        make install
+      '';
     };
 
 }
