@@ -224,6 +224,19 @@ rec
         '';
     };
 
+  gcc-arm-none-eabi =
+    let
+      pkg = builtins.fetchurl https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-darwin-x86_64-arm-none-eabi.pkg;
+      extracted =
+        lib.runCommand "gcc-arm-none-eabi" { } ''
+          export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+          pkgutil --expand-full ${pkg} $out
+        '';
+    in
+    {
+      bin = "${extracted}/Payload/bin";
+    };
+
   avr-binutils =
     let
       src = builtins.fetchTarball https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.xz;
