@@ -4,14 +4,15 @@ let
 
     let
 
-      rustc-version = "1.63.0";
-      rustc-release-date = "2022-08-11";
+      rustc-version = "1.66.1";
+      rustc-release-date = "2023-01-10";
       rust-toolchain-src = builtins.fetchurl "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
       # https://github.com/rust-lang/cargo/issues/9733
       rust-std-wasm32 = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-wasm32-unknown-unknown.tar.gz";
       rust-std-thumbv6m-none-eabi = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv6m-none-eabi.tar.gz";
+      rust-std-thumbv7em-none-eabihf = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
 
     in
     lib.runCommand "rust" { } ''
@@ -20,6 +21,7 @@ let
       cp -r $out/rust-std.pkg/Scripts/rust-std-x86_64-apple-darwin/lib/rustlib/x86_64-apple-darwin/lib $out/rustc.pkg/Scripts/rustc/lib/rustlib/x86_64-apple-darwin/
       cp -r ${rust-std-wasm32}/rust-std-wasm32-unknown-unknown/lib/rustlib/wasm32-unknown-unknown $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv6m-none-eabi}/rust-std-thumbv6m-none-eabi/lib/rustlib/thumbv6m-none-eabi $out/rustc.pkg/Scripts/rustc/lib/rustlib/
+      cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
 
       mv $out/rustc.pkg/Scripts/rustc/bin/rustc $out/rustc.pkg/Scripts/rustc/bin/.rustc
 
