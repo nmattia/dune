@@ -26,7 +26,7 @@ INIT_FILE="$(mktemp)"
 run nix build -f "$ROOT/default.nix" \
     --argstr user "$USER" \
     --argstr path "$PWD" \
-    --arg packages '[ "nodejs" "ffmpeg" "rustc" "cargo" "rustfmt" "wasm-pack" "gcc" "cmake" ]' \
+    --arg packages '[ "nodejs" "ffmpeg" "rustc" "cargo" "rustfmt" "wasm-pack" "gcc" "cmake" "go" "terraform" ]' \
     --arg env '[]' \
     --out-link "$OUTLINK"
 
