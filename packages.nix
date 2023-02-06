@@ -361,14 +361,21 @@ rec
 
 
   go =
-    let src = builtins.fetchTarball https://go.dev/dl/go1.20.darwin-arm64.tar.gz;
-    in {
+    let
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
+      src = builtins.fetchTarball "https://go.dev/dl/go1.20.${platform}.tar.gz";
+    in
+    {
       bin = "${src}/bin";
     };
 
   terraform =
-    let src = builtins.fetchurl https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_darwin_arm64.zip;
-    in {
+    let
+
+      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
+      src = builtins.fetchurl "https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_${platform}.zip";
+    in
+    {
       bin = lib.runCommand "terraform" { } ''
         export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
 
