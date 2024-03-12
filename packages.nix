@@ -93,6 +93,29 @@ rec
     }
   ;
 
+  m4 =
+    let
+      src = builtins.fetchTarball http://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.gz;
+    in
+
+    {
+      bin = lib.runCommand "m4" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+
+        ${src}/configure \
+          --prefix=$out \
+          --with-internal-glib \
+          --build=aarch64-apple-darwin13
+
+        make
+        make install
+
+        # TODO: find a better solution for files written in $out/bin
+        mv $out/bin/m4 $out/m4
+      '';
+    }
+  ;
+
   texinfo =
     let
       src = builtins.fetchTarball https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.1.tar.xz;
