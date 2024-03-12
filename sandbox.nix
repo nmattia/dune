@@ -38,11 +38,9 @@ rec {
     for bit in $paths; do
       echo looking for executables in "$bit"
 
-      for exe in "$bit"/*; do
+      for exe in $(find "$bit" -perm +111 -type f); do
         exe=$(basename "$exe")
         echo found exe "$exe"
-
-        echo 'echo hello from exe' > $out/bin/$exe
 
         cat ${sandboxExeWrapper { inherit user path paths env; }} > $out/bin/$exe
         chmod +x "$out/bin/$exe"

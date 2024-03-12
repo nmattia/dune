@@ -24,6 +24,7 @@ function run() {
 OUTLINK="$(mktemp -d)/link"
 INIT_FILE="$(mktemp)"
 run nix build -f "$ROOT/default.nix" \
+    --print-build-logs \
     --argstr user "$USER" \
     --argstr path "$PWD" \
     --arg packages '[ "nodejs" "ffmpeg" "rustc" "cargo" "rustfmt" "wasm-pack" "gcc" "cmake" "go" "terraform" "m4" ]' \
