@@ -386,7 +386,7 @@ rec
   go =
     let
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      src = builtins.fetchTarball "https://go.dev/dl/go1.20.${platform}.tar.gz";
+      src = builtins.fetchTarball "https://go.dev/dl/go1.22.1.${platform}.tar.gz";
     in
     {
       bin = "${src}/bin";
