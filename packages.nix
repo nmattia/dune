@@ -411,7 +411,7 @@ rec
   dfx =
     let
 
-      dfx-version = "0.12.1";
+      dfx-version = "0.18.0";
       dfx-src = builtins.fetchurl "https://github.com/dfinity/sdk/releases/download/${dfx-version}/dfx-${dfx-version}-x86_64-darwin.tar.gz";
     in
     {
