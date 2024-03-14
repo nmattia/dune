@@ -4,8 +4,8 @@ let
 
     let
 
-      rustc-version = "1.66.1";
-      rustc-release-date = "2023-01-10";
+      rustc-version = "1.76.0";
+      rustc-release-date = "2024-02-08";
       rust-toolchain-src = builtins.fetchurl "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
