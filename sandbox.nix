@@ -38,7 +38,7 @@ rec {
     for bit in $paths; do
       echo looking for executables in "$bit"
 
-      for exe in $(find "$bit" -perm +111 -type f); do
+      for exe in $(find "$bit" -perm +111 -not -type d); do
         exe=$(basename "$exe")
         echo found exe "$exe"
 
