@@ -408,6 +408,19 @@ rec
       '';
     };
 
+  ic-wasm =
+    let
+      ic-wasm-src = builtins.fetchurl "https://github.com/dfinity/ic-wasm/releases/download/0.3.5/ic-wasm-macos";
+    in
+    {
+      bin = lib.runCommand "ic-wasm" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        mkdir -p $out/
+        cp ${ic-wasm-src} $out/ic-wasm
+        chmod +x $out/ic-wasm
+      '';
+    };
+
   dfx =
     let
 
