@@ -421,6 +421,20 @@ rec
       '';
     };
 
+  didc =
+    let
+      didc-release = "2024-02-27";
+      didc-src = builtins.fetchurl "https://github.com/dfinity/candid/releases/download/${didc-release}/didc-macos";
+    in
+    {
+      bin = lib.runCommand "didc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        mkdir -p $out
+        cp ${didc-src} $out/didc
+        chmod +x $out/didc
+      '';
+    };
+
   dfx =
     let
 
