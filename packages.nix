@@ -392,6 +392,16 @@ rec
       bin = "${src}/bin";
     };
 
+  golangci-lint =
+    let
+      version = "1.57.2";
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
+      src = builtins.fetchTarball "https://github.com/golangci/golangci-lint/releases/download/v${version}/golangci-lint-${version}-${platform}.tar.gz";
+    in
+    {
+      bin = src;
+    };
+
   terraform =
     let
 
