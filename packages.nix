@@ -431,6 +431,19 @@ rec
       '';
     };
 
+  bazelisk =
+    let
+      bazelisk-src = builtins.fetchurl "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-darwin-amd64";
+    in
+    {
+      bin = lib.runCommand "bazelisk" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        mkdir -p $out
+        cp ${bazelisk-src} $out/bazel
+        chmod +x $out/bazel
+      '';
+    };
+
   didc =
     let
       didc-release = "2024-02-27";
