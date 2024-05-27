@@ -404,9 +404,9 @@ rec
 
   terraform =
     let
-
+      version = "1.8.4";
       platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
-      src = builtins.fetchurl "https://releases.hashicorp.com/terraform/1.8.0-rc1/terraform_1.8.0-rc1_${platform}.zip";
+      src = builtins.fetchurl "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_${platform}.zip";
     in
     {
       bin = lib.runCommand "terraform" { } ''
