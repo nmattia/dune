@@ -68,6 +68,21 @@ rec
       '';
     };
 
+  yq =
+    let
+      yq-version = "4.44.1";
+      yq-src = builtins.fetchurl "https://github.com/mikefarah/yq/releases/download/v${yq-version}/yq_darwin_amd64.tar.gz";
+    in
+    {
+      bin = lib.runCommand "yq" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        cp ${yq-src} ./yq-v${yq-version}.tar.gz
+        tar -xvzf ./yq-v${yq-version}.tar.gz
+        mkdir -p $out
+        cp yq_darwin_amd64 $out/yq
+      '';
+    };
+
   ffmpeg =
     let
       ffmpegZip = builtins.fetchurl https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
