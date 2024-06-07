@@ -52,6 +52,22 @@ rec
     in
     { bin = "${kubectl-src}/kubernetes/client/bin"; };
 
+  krew =
+    let
+      version = "darwin_amd64";
+      krew-src = builtins.fetchurl "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-${version}.tar.gz";
+    in
+    {
+      bin = lib.runCommand "krew" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        mkdir -p $out/
+        cp ${krew-src} ./krew-${version}.tar.gz
+        tar -xvzf ./krew-${version}.tar.gz
+        cp ./krew-${version} $out/krew-${version}
+        chmod +x $out/krew-${version}
+      '';
+    };
+
   ffmpeg =
     let
       ffmpegZip = builtins.fetchurl https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
