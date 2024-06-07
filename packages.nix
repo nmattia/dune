@@ -46,6 +46,11 @@ rec
     in
     { bin = "${tarball}/CMake.app/Contents/bin"; };
 
+  kubectl =
+    let
+      kubectl-src = builtins.fetchTarball https://dl.k8s.io/v1.30.1/kubernetes-client-darwin-amd64.tar.gz;
+    in
+    { bin = "${kubectl-src}/kubernetes/client/bin"; };
 
   ffmpeg =
     let
