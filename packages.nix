@@ -509,4 +509,20 @@ rec
         cp dfx $out/dfx
       '';
     };
+
+  nsc =
+    let
+      platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${builtins.currentSystem};
+      version = "0.0.377";
+      nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz"; };
+    in
+    {
+      bin = lib.runCommand "dfx" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        cp ${nsc-src} ./out.tar.gz
+        tar -xvzf ./out.tar.gz
+        mkdir -p $out
+        cp nsc $out/nsc
+      '';
+    };
 }

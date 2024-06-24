@@ -16,6 +16,7 @@ rec {
     (deny file* (subpath "/Applications"))
     (deny file* (subpath "/Users/${user}/Applications"))
     (allow file* (subpath "/Users/${user}/Library/Application Support"))
+    (allow file* (subpath "/Users/${user}/Library/Caches"))
   '';
 
 
