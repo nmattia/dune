@@ -6,13 +6,25 @@ let
 
       rustc-version = "1.76.0";
       rustc-release-date = "2024-02-08";
-      rust-toolchain-src = builtins.fetchurl "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
+      rust-toolchain-src = builtins.fetchurl {
+        url = "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
+        sha256 = sha256:0qrk7c3vbr6xmpwix63mqrz6q47rk15ph6qm7ca01dvmdngnb02f;
+      };
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
       # https://github.com/rust-lang/cargo/issues/9733
-      rust-std-wasm32 = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-wasm32-unknown-unknown.tar.gz";
-      rust-std-thumbv6m-none-eabi = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv6m-none-eabi.tar.gz";
-      rust-std-thumbv7em-none-eabihf = builtins.fetchTarball "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
+      rust-std-wasm32 = builtins.fetchTarball {
+        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-wasm32-unknown-unknown.tar.gz";
+        sha256 = sha256:0ixlr5x5lx30cykjj21vwsl37w2bfpr203lrw4y846i96r9cm4h0;
+      };
+      rust-std-thumbv6m-none-eabi = builtins.fetchTarball {
+        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv6m-none-eabi.tar.gz";
+        sha256 = sha256:00b6ihmpwr33brk8rwfpbxdl9rl9ald56zmvb0mqqq7jhs4m8dlh;
+      };
+      rust-std-thumbv7em-none-eabihf = builtins.fetchTarball {
+        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
+        sha256 = sha256:1sa7xj6k34knhcjzprg0x40abjdhwm0hw5jbq543sr54lw37hf1w;
+      };
 
     in
     lib.runCommand "rust" { } ''
@@ -36,26 +48,38 @@ rec
 {
   nodejs =
     let
-      npm-src = builtins.fetchTarball https://nodejs.org/download/release/v20.9.0/node-v20.9.0-darwin-x64.tar.gz;
+      npm-src = builtins.fetchTarball {
+        url = https://nodejs.org/download/release/v20.9.0/node-v20.9.0-darwin-x64.tar.gz;
+        sha256 = sha256:17vsjl91qj1p6y9gyigmcmhxd6lixsa6673rfh7m7knby6rzcdax;
+      };
     in
     { bin = "${npm-src}/bin"; };
 
   cmake =
     let
-      tarball = builtins.fetchTarball https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-macos-universal.tar.gz;
+      tarball = builtins.fetchTarball {
+        url = https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-macos-universal.tar.gz;
+        sha256 = sha256:16652qb4zqyc611yfh6w8spb9852rq5hdrd0m7dg3nlll1g8glpl;
+      };
     in
     { bin = "${tarball}/CMake.app/Contents/bin"; };
 
   kubectl =
     let
-      kubectl-src = builtins.fetchTarball https://dl.k8s.io/v1.30.1/kubernetes-client-darwin-amd64.tar.gz;
+      kubectl-src = builtins.fetchTarball {
+        url = https://dl.k8s.io/v1.30.1/kubernetes-client-darwin-amd64.tar.gz;
+        sha256 = sha256:1wy6kn3xhii3rvhhjnzdpm6fzjclibc37g4czr89nj0bnlj9xzyh;
+      };
     in
     { bin = "${kubectl-src}/kubernetes/client/bin"; };
 
   krew =
     let
       version = "darwin_amd64";
-      krew-src = builtins.fetchurl "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-${version}.tar.gz";
+      krew-src = builtins.fetchurl {
+        url = "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-${version}.tar.gz";
+        sha256 = sha256:06qymxnnx90zmnd0hm4h70ps6xlfb75zfb11i08wz1wahqs2ykaz;
+      };
     in
     {
       bin = lib.runCommand "krew" { } ''
@@ -71,7 +95,10 @@ rec
   yq =
     let
       yq-version = "4.44.1";
-      yq-src = builtins.fetchurl "https://github.com/mikefarah/yq/releases/download/v${yq-version}/yq_darwin_amd64.tar.gz";
+      yq-src = builtins.fetchurl {
+        url = "https://github.com/mikefarah/yq/releases/download/v${yq-version}/yq_darwin_amd64.tar.gz";
+        sha256 = sha256:1asfngvb2mn072yaafcgnabinm0s836lww7zryzpx6m9fzyih55r;
+      };
     in
     {
       bin = lib.runCommand "yq" { } ''
@@ -85,7 +112,10 @@ rec
 
   ffmpeg =
     let
-      ffmpegZip = builtins.fetchurl https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
+      ffmpegZip = builtins.fetchurl {
+        url = https://evermeet.cx/ffmpeg/ffmpeg-5.0.1.zip;
+        sha256 = sha256:0v64z61gr579ij8kb0bwgcxz6yv86zna36fzqwrirzx8szsm1a3b;
+      };
       ffmpeg = lib.runCommand "ffmpeg" { } ''
         export PATH=/usr/bin:/bin
         mkdir -p $out/bin
@@ -100,61 +130,28 @@ rec
 
   rustfmt =
     let
-      rustfmt-src = builtins.fetchTarball https://github.com/rust-lang/rustfmt/releases/download/v1.5.1/rustfmt_macos-x86_64_v1.5.1.tar.gz;
+      rustfmt-src = builtins.fetchTarball {
+        url = https://github.com/rust-lang/rustfmt/releases/download/v1.5.1/rustfmt_macos-x86_64_v1.5.1.tar.gz;
+        sha256 = sha256:0403dfnxkh1py72a5hb86xdq3npij6i1v6gjwff4cwah2zlpnhw6;
+      };
     in
     { bin = "${rustfmt-src}"; };
 
   wasm-pack =
-    let wasm-pack-src = builtins.fetchTarball https://github.com/rustwasm/wasm-pack/releases/download/v0.10.3/wasm-pack-v0.10.3-x86_64-apple-darwin.tar.gz;
+    let
+      wasm-pack-src = builtins.fetchTarball {
+        url = https://github.com/rustwasm/wasm-pack/releases/download/v0.10.3/wasm-pack-v0.10.3-x86_64-apple-darwin.tar.gz;
+        sha256 = sha256:1pzq0aws43m2phgwkp1i9wrscgijynvnrs0hbvhijmv5rfawd6lp;
+      };
     in
     { bin = "${wasm-pack-src}"; };
 
-  pkg-config =
-    let
-      src = builtins.fetchTarball https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz;
-    in
-
-    {
-      bin = lib.runCommand "pkg-config" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-        ${src}/configure \
-          --prefix=$out \
-          --with-internal-glib \
-          --build=aarch64-apple-darwin13
-
-        make
-        make install
-      '';
-    }
-  ;
-
-  m4 =
-    let
-      src = builtins.fetchTarball http://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.gz;
-    in
-
-    {
-      bin = lib.runCommand "m4" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-        ${src}/configure \
-          --prefix=$out \
-          --with-internal-glib \
-          --build=aarch64-apple-darwin13
-
-        make
-        make install
-
-        # TODO: find a better solution for files written in $out/bin
-        mv $out/bin/m4 $out/m4
-      '';
-    }
-  ;
-
   texinfo =
     let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.1.tar.xz;
+      src = builtins.fetchTarball {
+        url = https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.1.tar.xz;
+        sha256 = sha256:10h2w69kl93hi6f1h7b2xkjskyj1mzji6f2apf3bnsfv9hj4x650;
+      };
     in
 
     {
@@ -174,255 +171,14 @@ rec
     }
   ;
 
-  gmp =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz;
-    in
-
-    {
-      lib = lib.runCommand "gmp" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-        ${src}/configure \
-          --prefix=$out \
-          --build=aarch64-apple-darwin13 \
-          --with-pic
-
-        make
-        make install
-      '';
-    }
-  ;
-
-  isl =
-    let
-      src = builtins.fetchTarball https://libisl.sourceforge.io/isl-0.25.tar.xz;
-    in
-    {
-      lib = lib.runCommand "isl" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin:${pkg-config.bin}/bin
-        export PKG_CONFIG_PATH=${gmp.lib}/lib/pkgconfig
-
-        ${src}/configure \
-          CFLAGS=$(pkg-config --cflags-only-I gmp) \
-          LDFLAGS=$(pkg-config --libs-only-L gmp) \
-          --prefix=$out \
-          --build=aarch64-apple-darwin13 \
-          --with-pic
-
-        make
-        make install
-      '';
-
-
-    };
-
-  mpfr =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz;
-    in
-    {
-      lib = lib.runCommand "mpfr" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin:${pkg-config.bin}/bin
-        export PKG_CONFIG_PATH=${gmp.lib}/lib/pkgconfig
-
-        ${src}/configure \
-          CFLAGS="$(pkg-config --cflags-only-I gmp)" \
-          LDFLAGS="$(pkg-config --libs-only-L gmp)" \
-          --prefix=$out \
-          --build=aarch64-apple-darwin13 \
-          --with-pic
-
-        make
-        make install
-      '';
-    };
-
-  libmpc =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz;
-    in
-    {
-      lib = lib.runCommand "libmpc" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin:${pkg-config.bin}/bin
-        export PKG_CONFIG_PATH=${gmp.lib}/lib/pkgconfig:${mpfr.lib}/lib/pkgconfig
-
-        ${src}/configure \
-          CFLAGS="$(pkg-config --cflags-only-I gmp mpfr)" \
-          LDFLAGS="$(pkg-config --libs-only-L gmp mpfr)" \
-          --prefix=$out \
-          --build=aarch64-apple-darwin13 \
-          --with-pic
-
-        make
-        make install
-      '';
-    };
-
-  gcc =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz;
-      src-patched = lib.runCommand "gcc-src-patched" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-        cp -r ${src}/. $out
-        chmod -R +w $out
-        cd $out
-        patch <${patch}
-      '';
-      patch = builtins.fetchurl https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff;
-    in
-    {
-      bin =
-        lib.runCommand "gcc" { } ''
-          export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-          export AR=ar
-
-          ${src-patched}/configure \
-            --with-gmp=${gmp.lib} \
-            --with-mpfr=${mpfr.lib} \
-            --with-mpc=${libmpc.lib} \
-            --with-gcc-major-version-only \
-            --disable-nls \
-            --build=aarch64-apple-darwin13 \
-            --enable-languages=c \
-            --with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
-            --prefix=$out
-
-          make
-          make install
-        '';
-    };
-
-  gcc-arm-none-eabi =
-    let
-      pkg = builtins.fetchurl https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-darwin-x86_64-arm-none-eabi.pkg;
-      extracted =
-        lib.runCommand "gcc-arm-none-eabi" { } ''
-          export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-          pkgutil --expand-full ${pkg} $out
-        '';
-    in
-    {
-      bin = "${extracted}/Payload/bin";
-    };
-
-  avr-binutils =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.xz;
-      src-patched = lib.runCommand "gcc-src-patched" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-        cp -r ${src}/. $out
-        chmod -R +w $out
-        cd $out
-        patch <${patch}
-      '';
-      patch = builtins.fetchurl https://raw.githubusercontent.com/osx-cross/homebrew-avr/18d50ba2a168a3b90a25c96e4bc4c053df77d7dc/Patch/avr-binutils-elf-bfd-gdb-fix.patch;
-    in
-    {
-      bin =
-        lib.runCommand "avr-binutils" { } ''
-          export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-          PATH=${texinfo.bin}/bin:$PATH
-
-          ${src-patched}/configure \
-            \
-            --build=aarch64-apple-darwin13 \
-            --target=avr \
-            --prefix=$out \
-            \
-            --disable-nls \
-            --disable-debug \
-            --disable-werror \
-            --disable-dependency-tracking \
-
-          make
-          make install
-        '';
-    };
-
-
-  gcc-avr =
-    let
-      src = builtins.fetchTarball https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz;
-      src-patched = lib.runCommand "gcc-src-patched" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-        cp -r ${src}/. $out
-        chmod -R +w $out
-        cd $out
-        patch <${patch-avr-texi}
-        patch <${patch-apple-silicon}
-      '';
-
-      patch-avr-texi = builtins.fetchurl https://gist.githubusercontent.com/nmattia/3f9b03705257e1e20bc9e4e5968e58ef/raw/924bb6fd6b355844e1893fa194fe08009635f7a3/gcc.patch;
-      patch-apple-silicon = builtins.fetchurl https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff;
-    in
-    {
-      bin =
-        lib.runCommand "gcc-avr" { } ''
-          export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-          # needed otherwise avr-ar isn't found
-          PATH=${avr-binutils.bin}/bin:$PATH
-
-          ${src-patched}/configure \
-            --build=aarch64-apple-darwin13 \
-            --target=avr \
-            --prefix=$out \
-            \
-            --with-gcc-major-version-only \
-            \
-            --with-gmp=${gmp.lib} \
-            --with-mpfr=${mpfr.lib} \
-            --with-mpc=${libmpc.lib} \
-            --with-ld=${avr-binutils.bin}/bin/avr-ld \
-            --with-as=${avr-binutils.bin}/bin/avr-as \
-            \
-            --with-dwarf2 \
-            --with-avrlibc \
-            \
-            --enable-languages=c \
-            \
-            --disable-nls \
-            --disable-libssp \
-            --disable-shared \
-            --disable-threads \
-            --disable-libgomp
-
-          make BOOT_LDFLAGS=-Wl,-headerpad_max_install_names
-          make install
-        '';
-    };
-
-
-
-  avr-libc =
-    let
-      src = builtins.fetchTarball https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2;
-    in
-    {
-      lib = lib.runCommand "avr-libc" { } ''
-        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-
-        PATH=${gcc-avr.bin}/bin:$PATH
-        PATH=${avr-binutils.bin}/bin:$PATH
-
-        export ac_cv_build=aarch64-apple-darwin
-
-        ${src}/configure \
-          --prefix=$out \
-          --host=avr
-
-        make
-        make install
-      '';
-    };
-
-
   go =
     let
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      src = builtins.fetchTarball "https://go.dev/dl/go1.22.1.${platform}.tar.gz";
+      sha256 = { aarch64-darwin = sha256:0pgw4y9q9wjv3z8cr0c71a8301qvwqcwb1z4i7jaml4wagckvmvd; x86_64-darwin = ""; }.${builtins.currentSystem};
+      src = builtins.fetchTarball {
+        url = "https://go.dev/dl/go1.22.1.${platform}.tar.gz";
+        inherit sha256;
+      };
     in
     {
       bin = "${src}/bin";
@@ -432,7 +188,12 @@ rec
     let
       version = "1.57.2";
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      src = builtins.fetchTarball "https://github.com/golangci/golangci-lint/releases/download/v${version}/golangci-lint-${version}-${platform}.tar.gz";
+      sha256 = { aarch64-darwin = sha256:1xv3i70qmsd8wmd3bs2ij18vff0vbn52fr77ksam9hxbql8sdjzv; x86_64-darwin = ""; }.${builtins.currentSystem};
+      src = builtins.fetchTarball {
+        url = "https://github.com/golangci/golangci-lint/releases/download/v${version}/golangci-lint-${version}-${platform}.tar.gz";
+
+        inherit sha256;
+      };
     in
     {
       bin = src;
@@ -442,7 +203,11 @@ rec
     let
       version = "1.8.4";
       platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
-      src = builtins.fetchurl "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_${platform}.zip";
+      sha256 = { aarch64-darwin = sha256:16pl7hixy26ffyg08sc1xrgfdi3ckrpgr8bpc2zgwi425j3d4m3a; x86_64-darwin = ""; }.${builtins.currentSystem};
+      src = builtins.fetchurl {
+        url = "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_${platform}.zip";
+        inherit sha256;
+      };
     in
     {
       bin = lib.runCommand "terraform" { } ''
@@ -456,7 +221,10 @@ rec
 
   ic-wasm =
     let
-      ic-wasm-src = builtins.fetchurl "https://github.com/dfinity/ic-wasm/releases/download/0.3.5/ic-wasm-macos";
+      ic-wasm-src = builtins.fetchurl {
+        url = https://github.com/dfinity/ic-wasm/releases/download/0.3.5/ic-wasm-macos;
+        sha256 = sha256:14n91hrm3jdbccbmz322qcx7fqg5wxs1m9j86wp9576fiy5pjfw4;
+      };
     in
     {
       bin = lib.runCommand "ic-wasm" { } ''
@@ -469,7 +237,10 @@ rec
 
   bazelisk =
     let
-      bazelisk-src = builtins.fetchurl "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-darwin-amd64";
+      bazelisk-src = builtins.fetchurl {
+        url = https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-darwin-amd64;
+        sha256 = sha256:1gs5fml4nl4arzykwnwhffwnbwk4ip8wmspwz5nnak3ha66j59ji;
+      };
     in
     {
       bin = lib.runCommand "bazelisk" { } ''
@@ -483,7 +254,10 @@ rec
   didc =
     let
       didc-release = "2024-02-27";
-      didc-src = builtins.fetchurl "https://github.com/dfinity/candid/releases/download/${didc-release}/didc-macos";
+      didc-src = builtins.fetchurl {
+        url = "https://github.com/dfinity/candid/releases/download/${didc-release}/didc-macos";
+        sha256 = sha256:1x6xy5w08dhazsrdrwzkxx6lwf4klcl1l847j1yygl0v0dqyqwl1;
+      };
     in
     {
       bin = lib.runCommand "didc" { } ''
@@ -498,7 +272,10 @@ rec
     let
 
       dfx-version = "0.21.0";
-      dfx-src = builtins.fetchurl "https://github.com/dfinity/sdk/releases/download/${dfx-version}/dfx-${dfx-version}-x86_64-darwin.tar.gz";
+      dfx-src = builtins.fetchurl {
+        url = "https://github.com/dfinity/sdk/releases/download/${dfx-version}/dfx-${dfx-version}-x86_64-darwin.tar.gz";
+        sha256 = sha256:1l8bmrwsv9vlbm3kh9v0sp0qv63ijhhpdj35y0w16p2bh7yij0w3;
+      };
     in
     {
       bin = lib.runCommand "dfx" { } ''
@@ -513,8 +290,9 @@ rec
   nsc =
     let
       platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = ""; }.${builtins.currentSystem};
       version = "0.0.377";
-      nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz"; };
+      nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz";  inherit sha256; };
     in
     {
       bin = lib.runCommand "dfx" { } ''
