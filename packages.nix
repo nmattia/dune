@@ -174,7 +174,7 @@ rec
   go =
     let
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:0pgw4y9q9wjv3z8cr0c71a8301qvwqcwb1z4i7jaml4wagckvmvd; x86_64-darwin = ""; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:0pgw4y9q9wjv3z8cr0c71a8301qvwqcwb1z4i7jaml4wagckvmvd; x86_64-darwin = sha256:136n87wa7xhb5x52xh8v8360h2x9vivzcdh5s5nis85dx3a4qwmd; }.${builtins.currentSystem};
       src = builtins.fetchTarball {
         url = "https://go.dev/dl/go1.22.1.${platform}.tar.gz";
         inherit sha256;
@@ -188,7 +188,7 @@ rec
     let
       version = "1.57.2";
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:1xv3i70qmsd8wmd3bs2ij18vff0vbn52fr77ksam9hxbql8sdjzv; x86_64-darwin = ""; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:1xv3i70qmsd8wmd3bs2ij18vff0vbn52fr77ksam9hxbql8sdjzv; x86_64-darwin = sha256:0n3zxs233ll7pyykldx3srsnv3nbgvlza3dklkfgrlmb1syzhcqi; }.${builtins.currentSystem};
       src = builtins.fetchTarball {
         url = "https://github.com/golangci/golangci-lint/releases/download/v${version}/golangci-lint-${version}-${platform}.tar.gz";
 
@@ -203,7 +203,7 @@ rec
     let
       version = "1.8.4";
       platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:16pl7hixy26ffyg08sc1xrgfdi3ckrpgr8bpc2zgwi425j3d4m3a; x86_64-darwin = ""; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:16pl7hixy26ffyg08sc1xrgfdi3ckrpgr8bpc2zgwi425j3d4m3a; x86_64-darwin = sha256:0if4xqn48dh2ld61w4qw7a4h5kf4y16d6yha5l02jy370wmqfs2r; }.${builtins.currentSystem};
       src = builtins.fetchurl {
         url = "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_${platform}.zip";
         inherit sha256;
@@ -290,7 +290,7 @@ rec
   nsc =
     let
       platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = ""; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = sha256:03xpihjdgkcy6nz08sdg752464phys6xzkkj4hwj7qp7jjj2nxia; }.${builtins.currentSystem};
       version = "0.0.377";
       nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz";  inherit sha256; };
     in
