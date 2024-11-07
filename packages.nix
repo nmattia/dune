@@ -4,11 +4,11 @@ let
 
     let
 
-      rustc-version = "1.76.0";
-      rustc-release-date = "2024-02-08";
+      rustc-version = "1.82.0";
+      rustc-release-date = "2024-10-17";
       rust-toolchain-src = builtins.fetchurl {
         url = "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
-        sha256 = sha256:0qrk7c3vbr6xmpwix63mqrz6q47rk15ph6qm7ca01dvmdngnb02f;
+        sha256 = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97;
       };
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
