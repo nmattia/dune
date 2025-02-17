@@ -290,8 +290,8 @@ rec
   nsc =
     let
       platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = sha256:03xpihjdgkcy6nz08sdg752464phys6xzkkj4hwj7qp7jjj2nxia; }.${builtins.currentSystem};
-      version = "0.0.377";
+      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = sha256:0wxnfjp1zwrrr28kx3khibc72gzqf9jfl6y2zxiz647s2mzmskyb; }.${builtins.currentSystem};
+      version = "0.0.402";
       nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz";  inherit sha256; };
     in
     {
