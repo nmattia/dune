@@ -48,12 +48,15 @@ rec
 {
   nodejs =
     let
-      npm-src = builtins.fetchTarball {
-        url = https://nodejs.org/download/release/v20.9.0/node-v20.9.0-darwin-x64.tar.gz;
-        sha256 = sha256:17vsjl91qj1p6y9gyigmcmhxd6lixsa6673rfh7m7knby6rzcdax;
+      node-version = "v22.11.0";
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-x64"; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:06k4sr01kpn83jn639bkan6b46d91pmkhny80fwfbqwqnm3m6kij; x86_64-darwin = sha256:0bicryqcbwlchj197mqrz7psxmm70zb0hjfh24gkj4g8hpffwxjf; }.${builtins.currentSystem};
+      node-src = builtins.fetchTarball {
+        url = "https://nodejs.org/download/release/${node-version}/node-${node-version}-${platform}.tar.gz";
+        inherit sha256;
       };
     in
-    { bin = "${npm-src}/bin"; };
+    { bin = "${node-src}/bin"; };
 
   cmake =
     let
