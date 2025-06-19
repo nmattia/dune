@@ -97,19 +97,22 @@ rec
 
   yq =
     let
-      yq-version = "4.44.1";
-      yq-src = builtins.fetchurl {
-        url = "https://github.com/mikefarah/yq/releases/download/v${yq-version}/yq_darwin_amd64.tar.gz";
-        sha256 = sha256:1asfngvb2mn072yaafcgnabinm0s836lww7zryzpx6m9fzyih55r;
+      version = "4.45.4";
+      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:3f3424b21b0835bcffc444c15dccc2ca4bb8a765d2f8aeb7415cdb4b494081b1; x86_64-darwin = sha256:821bb7e491d2dae72c0c83d69f521dd0c8f473de35a50566fb3f718131f54747; }.${builtins.currentSystem};
+      src = builtins.fetchurl {
+        url = "https://github.com/mikefarah/yq/releases/download/v${version}/yq_${platform}.tar.gz";
+
+        inherit sha256;
       };
     in
     {
       bin = lib.runCommand "yq" { } ''
         export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-        cp ${yq-src} ./yq-v${yq-version}.tar.gz
-        tar -xvzf ./yq-v${yq-version}.tar.gz
+        cp ${src} ./yq-v${version}.tar.gz
+        tar -xvzf ./yq-v${version}.tar.gz
         mkdir -p $out
-        cp yq_darwin_amd64 $out/yq
+        cp yq_${platform} $out/yq
       '';
     };
 
