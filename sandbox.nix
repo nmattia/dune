@@ -21,13 +21,19 @@ rec {
 
 
   sandboxExeWrapper = { user, path, paths, env /* list of "FOO=BAR" */ }: pkgs.writeText "sandbox-wrapper" ''
-    # TODO: why can't I set a shebang?
+    #!/usr/bin/env bash
     set -euo pipefail
+
+    # remove this (the sandbox path) from the PATH so that
+    # executables can call the un-sandboxed exes (top-level is still
+    # sandboxed)
+    here="$(dirname "$0")"
+    PATH="''${PATH#$here:?}"
     export PATH=${builtins.concatStringsSep ":" paths}:$PATH
     ${ builtins.concatStringsSep "\n" (map (kv: "export ${kv}") env)}
     profile=${mkProfile {inherit user path;}}
     exe=$(which $(basename "$0"))
-    /usr/bin/sandbox-exec -f "$profile" "$exe" "$@"
+    exec /usr/bin/sandbox-exec -f "$profile" "$exe" "$@"
   '';
 
   # note: if called directly, 'paths' should be strings for things like /bin, _not_ paths
@@ -39,7 +45,7 @@ rec {
     for bit in $paths; do
       echo looking for executables in "$bit"
 
-      for exe in $(find "$bit" -perm +111 -not -type d); do
+      for exe in $(find "$bit" -maxdepth 1 -perm +111 -not -type d); do
         exe=$(basename "$exe")
         echo found exe "$exe"
 
