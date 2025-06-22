@@ -152,6 +152,55 @@ rec
     in
     { bin = "${wasm-pack-src}"; };
 
+  # mostly used in python build
+  openssl =
+    let
+      src = builtins.fetchTarball {
+        url = https://github.com/openssl/openssl/releases/download/openssl-3.5.0/openssl-3.5.0.tar.gz;
+        sha256 = sha256:1by6j3k4zrjqpr249w1x6403xv64djhcfnw9139mjwdv1nnny7dz;
+      };
+
+      toplevel = lib.runCommand "pysrc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+
+        ${src}/configure \
+          --prefix=$out
+
+        make
+        make install
+      '';
+    in
+
+    {
+      lib = toplevel;
+    }
+  ;
+
+  # build from source because it's a real pain to relocate an install hardcoded for
+  # /Library
+  python =
+    let
+      src = builtins.fetchTarball {
+        url = https://www.python.org/ftp/python/3.13.5/Python-3.13.5.tar.xz;
+        sha256 = sha256:05bs46x8fq14cqgsr06hnbbflslmm90hrvfj9iwgcjdahsc8fn09;
+      };
+
+      toplevel = lib.runCommand "pysrc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+
+        ${src}/configure \
+            --with-openssl=${openssl.lib} \
+          --prefix=$out
+
+        make
+        make install
+      '';
+    in
+    {
+      bin = "${toplevel}/bin";
+    }
+  ;
+
   texinfo =
     let
       src = builtins.fetchTarball {
