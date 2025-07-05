@@ -48,9 +48,9 @@ rec
 {
   nodejs =
     let
-      node-version = "v22.11.0";
+      node-version = "v22.17.0";
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-x64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:06k4sr01kpn83jn639bkan6b46d91pmkhny80fwfbqwqnm3m6kij; x86_64-darwin = sha256:0bicryqcbwlchj197mqrz7psxmm70zb0hjfh24gkj4g8hpffwxjf; }.${builtins.currentSystem};
+      sha256 = { aarch64-darwin = sha256:00k7ypbw2si6yl5ilrcv4h39bf1kgmslfqmw32sspjgvlsa1qff2; x86_64-darwin = sha256:14my7k12gkkzivrl3mnvf72h7xfrhayziplzi59hhvwbwcvf18s2; }.${builtins.currentSystem};
       node-src = builtins.fetchTarball {
         url = "https://nodejs.org/download/release/${node-version}/node-${node-version}-${platform}.tar.gz";
         inherit sha256;
