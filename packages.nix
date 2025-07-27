@@ -15,15 +15,15 @@ let
       # https://github.com/rust-lang/cargo/issues/9733
       rust-std-wasm32 = builtins.fetchTarball {
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-wasm32-unknown-unknown.tar.gz";
-        sha256 = sha256:0ixlr5x5lx30cykjj21vwsl37w2bfpr203lrw4y846i96r9cm4h0;
+        sha256 = sha256:012wfz6qgzhyqwyc9nqwrk5p5a2j4c7i8d5c230dr51afnyl6z6h;
       };
       rust-std-thumbv6m-none-eabi = builtins.fetchTarball {
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv6m-none-eabi.tar.gz";
-        sha256 = sha256:00b6ihmpwr33brk8rwfpbxdl9rl9ald56zmvb0mqqq7jhs4m8dlh;
+        sha256 = sha256:13f9dxk14ihjakzpk3c3mvzfkxpa1wks5v9bd5xv0lhq32h2kv2y;
       };
       rust-std-thumbv7em-none-eabihf = builtins.fetchTarball {
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
-        sha256 = sha256:1sa7xj6k34knhcjzprg0x40abjdhwm0hw5jbq543sr54lw37hf1w;
+        sha256 = sha256:0l5mn09c721vvk6ibxs68ksk5vhxzn4dc6w193xzg4j52d7mc4ph;
       };
 
     in
