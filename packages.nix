@@ -80,7 +80,7 @@ rec
     let
       version = "darwin_amd64";
       krew-src = builtins.fetchurl {
-        url = "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-${version}.tar.gz";
+        url = "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.4/krew-${version}.tar.gz";
         sha256 = sha256:06qymxnnx90zmnd0hm4h70ps6xlfb75zfb11i08wz1wahqs2ykaz;
       };
     in
