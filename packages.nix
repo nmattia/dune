@@ -95,6 +95,23 @@ rec
       '';
     };
 
+  protoc =
+    let
+      version = "32.0";
+      platform = { x86_64-darwin = "osx-x86_64"; }.${builtins.currentSystem};
+      sha256 = { x86_64-darwin = sha256:1xmz74hxb46yxhgx4siy5h16kk265pxq3klb18dv2an1vlavmvk3; }.${builtins.currentSystem};
+      protocZip = builtins.fetchurl {
+        url = "https://github.com/protocolbuffers/protobuf/releases/download/v${version}/protoc-${version}-${platform}.zip";
+        inherit sha256;
+      };
+      protoc = lib.runCommand "protoc" { } ''
+        export PATH=/usr/bin:/bin
+        mkdir -p $out/bin
+        unzip ${protocZip} -d $out
+      '';
+    in
+    { bin = "${protoc}/bin"; };
+
   yq =
     let
       version = "4.45.4";
