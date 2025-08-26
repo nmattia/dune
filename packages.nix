@@ -366,10 +366,10 @@ rec
   dfx =
     let
 
-      dfx-version = "0.21.0";
+      dfx-version = "0.28.0";
       dfx-src = builtins.fetchurl {
         url = "https://github.com/dfinity/sdk/releases/download/${dfx-version}/dfx-${dfx-version}-x86_64-darwin.tar.gz";
-        sha256 = sha256:1l8bmrwsv9vlbm3kh9v0sp0qv63ijhhpdj35y0w16p2bh7yij0w3;
+        sha256 = sha256:194kczxshflzsjfnw0chnrv48a3cffwhjcqmp89ysrxl47332gzr;
       };
     in
     {
