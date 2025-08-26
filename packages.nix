@@ -95,6 +95,29 @@ rec
       '';
     };
 
+
+
+  moc =
+    let
+      version = "0.16.1";
+      platform = { x86_64-darwin = "Darwin-x86_64"; }.${builtins.currentSystem};
+      sha256 = { x86_64-darwin = sha256:13c6p7icvb64f4c5xhi8id0x8kypj0gsj96mq5mlqnl1iilpcqss; }.${builtins.currentSystem};
+      src = builtins.fetchurl {
+        url = "https://github.com/dfinity/motoko/releases/download/${version}/motoko-${platform}-${version}.tar.gz";
+
+        inherit sha256;
+      };
+    in
+    {
+      bin = lib.runCommand "moc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        cp ${src} ./moc-v${version}.tar.gz
+        tar -xvzf ./moc-v${version}.tar.gz
+        mkdir -p $out
+        cp ./moc $out/
+      '';
+    };
+
   protoc =
     let
       version = "32.0";
