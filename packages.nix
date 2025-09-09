@@ -6,9 +6,12 @@ let
 
       rustc-version = "1.82.0";
       rustc-release-date = "2024-10-17";
+      platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${builtins.currentSystem};
+      rust-toolchain-url = "https://static.rust-lang.org/dist/rust-${rustc-version}-${platform}.pkg";
+      rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${builtins.currentSystem};
       rust-toolchain-src = builtins.fetchurl {
-        url = "https://static.rust-lang.org/dist/rust-${rustc-version}-x86_64-apple-darwin.pkg";
-        sha256 = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97;
+        url = rust-toolchain-url;
+        sha256 = rust-toolchain-sha256;
       };
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
@@ -30,7 +33,7 @@ let
     lib.runCommand "rust" { } ''
       export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
       pkgutil --expand ${rust-toolchain-src} $out
-      cp -r $out/rust-std.pkg/Scripts/rust-std-x86_64-apple-darwin/lib/rustlib/x86_64-apple-darwin/lib $out/rustc.pkg/Scripts/rustc/lib/rustlib/x86_64-apple-darwin/
+      cp -r $out/rust-std.pkg/Scripts/rust-std-${platform}/lib/rustlib/${platform}/lib $out/rustc.pkg/Scripts/rustc/lib/rustlib/${platform}/
       cp -r ${rust-std-wasm32}/rust-std-wasm32-unknown-unknown/lib/rustlib/wasm32-unknown-unknown $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv6m-none-eabi}/rust-std-thumbv6m-none-eabi/lib/rustlib/thumbv6m-none-eabi $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
