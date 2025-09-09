@@ -9,6 +9,7 @@ let
       platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${builtins.currentSystem};
       rust-toolchain-url = "https://static.rust-lang.org/dist/rust-${rustc-version}-${platform}.pkg";
       rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${builtins.currentSystem};
+      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; }.${builtins.currentSystem};
       rust-toolchain-src = builtins.fetchurl {
         url = rust-toolchain-url;
         sha256 = rust-toolchain-sha256;
@@ -28,6 +29,10 @@ let
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
         sha256 = sha256:0l5mn09c721vvk6ibxs68ksk5vhxzn4dc6w193xzg4j52d7mc4ph;
       };
+      rustfmt = builtins.fetchTarball {
+        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rustfmt-${rustc-version}-${platform}.tar.gz";
+        sha256 = rustfmt-sha256;
+      };
 
     in
     lib.runCommand "rust" { } ''
@@ -37,6 +42,7 @@ let
       cp -r ${rust-std-wasm32}/rust-std-wasm32-unknown-unknown/lib/rustlib/wasm32-unknown-unknown $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv6m-none-eabi}/rust-std-thumbv6m-none-eabi/lib/rustlib/thumbv6m-none-eabi $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
+      cp -r ${rustfmt}/rustfmt-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
 
       mv $out/rustc.pkg/Scripts/rustc/bin/rustc $out/rustc.pkg/Scripts/rustc/bin/.rustc
 
@@ -176,15 +182,6 @@ rec
 
   rustc = { bin = "${rustToolchain}/rustc.pkg/Scripts/rustc/bin"; };
   cargo = { bin = "${rustToolchain}/cargo.pkg/Scripts/cargo/bin"; };
-
-  rustfmt =
-    let
-      rustfmt-src = builtins.fetchTarball {
-        url = https://github.com/rust-lang/rustfmt/releases/download/v1.5.1/rustfmt_macos-x86_64_v1.5.1.tar.gz;
-        sha256 = sha256:0403dfnxkh1py72a5hb86xdq3npij6i1v6gjwff4cwah2zlpnhw6;
-      };
-    in
-    { bin = "${rustfmt-src}"; };
 
   wasm-pack =
     let
