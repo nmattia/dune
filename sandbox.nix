@@ -1,11 +1,10 @@
+{ lib }:
 let
-  lib = import ./lib.nix;
   packages = import ./packages.nix;
-  pkgs = import <nixpkgs> { };
 in
 rec {
 
-  sandboxExeWrapper = { paths, }: pkgs.writeScriptBin "sandbox-wrapper" ''
+  sandboxExeWrapper = { paths, }: lib.writeScriptBin "sandbox-wrapper" ''
     #!/usr/bin/env bash
 
     set -euo pipefail

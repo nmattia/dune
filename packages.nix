@@ -1,15 +1,16 @@
+{ system }:
 let
-  lib = import ./lib.nix;
+  lib = import ./lib.nix { inherit system; };
   rustToolchain =
 
     let
 
       rustc-version = "1.82.0";
       rustc-release-date = "2024-10-17";
-      platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${system};
       rust-toolchain-url = "https://static.rust-lang.org/dist/rust-${rustc-version}-${platform}.pkg";
-      rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${builtins.currentSystem};
-      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; }.${builtins.currentSystem};
+      rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${system};
+      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; }.${system};
       rust-toolchain-src = builtins.fetchurl {
         url = rust-toolchain-url;
         sha256 = rust-toolchain-sha256;
@@ -58,8 +59,8 @@ rec
   nodejs =
     let
       node-version = "v22.17.0";
-      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-x64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:00k7ypbw2si6yl5ilrcv4h39bf1kgmslfqmw32sspjgvlsa1qff2; x86_64-darwin = sha256:14my7k12gkkzivrl3mnvf72h7xfrhayziplzi59hhvwbwcvf18s2; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-x64"; }.${system};
+      sha256 = { aarch64-darwin = sha256:00k7ypbw2si6yl5ilrcv4h39bf1kgmslfqmw32sspjgvlsa1qff2; x86_64-darwin = sha256:14my7k12gkkzivrl3mnvf72h7xfrhayziplzi59hhvwbwcvf18s2; }.${system};
       node-src = builtins.fetchTarball {
         url = "https://nodejs.org/download/release/${node-version}/node-${node-version}-${platform}.tar.gz";
         inherit sha256;
@@ -109,8 +110,8 @@ rec
   moc =
     let
       version = "0.16.1";
-      platform = { x86_64-darwin = "Darwin-x86_64"; }.${builtins.currentSystem};
-      sha256 = { x86_64-darwin = sha256:13c6p7icvb64f4c5xhi8id0x8kypj0gsj96mq5mlqnl1iilpcqss; }.${builtins.currentSystem};
+      platform = { x86_64-darwin = "Darwin-x86_64"; }.${system};
+      sha256 = { x86_64-darwin = sha256:13c6p7icvb64f4c5xhi8id0x8kypj0gsj96mq5mlqnl1iilpcqss; }.${system};
       src = builtins.fetchurl {
         url = "https://github.com/dfinity/motoko/releases/download/${version}/motoko-${platform}-${version}.tar.gz";
 
@@ -130,8 +131,8 @@ rec
   protoc =
     let
       version = "32.0";
-      platform = { x86_64-darwin = "osx-x86_64"; }.${builtins.currentSystem};
-      sha256 = { x86_64-darwin = sha256:1xmz74hxb46yxhgx4siy5h16kk265pxq3klb18dv2an1vlavmvk3; }.${builtins.currentSystem};
+      platform = { x86_64-darwin = "osx-x86_64"; }.${system};
+      sha256 = { x86_64-darwin = sha256:1xmz74hxb46yxhgx4siy5h16kk265pxq3klb18dv2an1vlavmvk3; }.${system};
       protocZip = builtins.fetchurl {
         url = "https://github.com/protocolbuffers/protobuf/releases/download/v${version}/protoc-${version}-${platform}.zip";
         inherit sha256;
@@ -147,8 +148,8 @@ rec
   yq =
     let
       version = "4.45.4";
-      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:3f3424b21b0835bcffc444c15dccc2ca4bb8a765d2f8aeb7415cdb4b494081b1; x86_64-darwin = sha256:821bb7e491d2dae72c0c83d69f521dd0c8f473de35a50566fb3f718131f54747; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${system};
+      sha256 = { aarch64-darwin = sha256:3f3424b21b0835bcffc444c15dccc2ca4bb8a765d2f8aeb7415cdb4b494081b1; x86_64-darwin = sha256:821bb7e491d2dae72c0c83d69f521dd0c8f473de35a50566fb3f718131f54747; }.${system};
       src = builtins.fetchurl {
         url = "https://github.com/mikefarah/yq/releases/download/v${version}/yq_${platform}.tar.gz";
 
@@ -268,8 +269,8 @@ rec
 
   go =
     let
-      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:0pgw4y9q9wjv3z8cr0c71a8301qvwqcwb1z4i7jaml4wagckvmvd; x86_64-darwin = sha256:136n87wa7xhb5x52xh8v8360h2x9vivzcdh5s5nis85dx3a4qwmd; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${system};
+      sha256 = { aarch64-darwin = sha256:0pgw4y9q9wjv3z8cr0c71a8301qvwqcwb1z4i7jaml4wagckvmvd; x86_64-darwin = sha256:136n87wa7xhb5x52xh8v8360h2x9vivzcdh5s5nis85dx3a4qwmd; }.${system};
       src = builtins.fetchTarball {
         url = "https://go.dev/dl/go1.22.1.${platform}.tar.gz";
         inherit sha256;
@@ -282,8 +283,8 @@ rec
   golangci-lint =
     let
       version = "1.57.2";
-      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:1xv3i70qmsd8wmd3bs2ij18vff0vbn52fr77ksam9hxbql8sdjzv; x86_64-darwin = sha256:0n3zxs233ll7pyykldx3srsnv3nbgvlza3dklkfgrlmb1syzhcqi; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${system};
+      sha256 = { aarch64-darwin = sha256:1xv3i70qmsd8wmd3bs2ij18vff0vbn52fr77ksam9hxbql8sdjzv; x86_64-darwin = sha256:0n3zxs233ll7pyykldx3srsnv3nbgvlza3dklkfgrlmb1syzhcqi; }.${system};
       src = builtins.fetchTarball {
         url = "https://github.com/golangci/golangci-lint/releases/download/v${version}/golangci-lint-${version}-${platform}.tar.gz";
 
@@ -297,8 +298,8 @@ rec
   terraform =
     let
       version = "1.8.4";
-      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:16pl7hixy26ffyg08sc1xrgfdi3ckrpgr8bpc2zgwi425j3d4m3a; x86_64-darwin = sha256:0if4xqn48dh2ld61w4qw7a4h5kf4y16d6yha5l02jy370wmqfs2r; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = "darwin_arm64"; x86_64-darwin = "darwin_amd64"; }.${system};
+      sha256 = { aarch64-darwin = sha256:16pl7hixy26ffyg08sc1xrgfdi3ckrpgr8bpc2zgwi425j3d4m3a; x86_64-darwin = sha256:0if4xqn48dh2ld61w4qw7a4h5kf4y16d6yha5l02jy370wmqfs2r; }.${system};
       src = builtins.fetchurl {
         url = "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_${platform}.zip";
         inherit sha256;
@@ -384,8 +385,8 @@ rec
 
   nsc =
     let
-      platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${builtins.currentSystem};
-      sha256 = { aarch64-darwin = sha256:14awdixrfbjrskfcrwkv7fjpcnpd4mmhgyydwmq6y8ndnjdsmyp7; x86_64-darwin = sha256:13hmwc2cl0aqfi7c8l2i2qn8zjffzrn5c44i2w8pfpdba1izca9i; }.${builtins.currentSystem};
+      platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${system};
+      sha256 = { aarch64-darwin = sha256:1pkcmjfv7ryxz8xbdsp7y08c32qhjd1g0hya336403gfwnx550gz; x86_64-darwin = sha256:13hmwc2cl0aqfi7c8l2i2qn8zjffzrn5c44i2w8pfpdba1izca9i; }.${system};
       version = "0.0.412";
       nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz";  inherit sha256; };
     in
