@@ -26,15 +26,17 @@ INIT_FILE="$(mktemp)"
 run nix build -f "$ROOT/default.nix" \
     --print-build-logs \
     --argstr user "$USER" \
-    --argstr path "$PWD" \
-    --arg packages '[ "nodejs" "ffmpeg" "rustc" "cargo" "rustfmt" "wasm-pack" "gcc" "cmake" "go" "terraform" "m4" ]' \
+    --arg packages '[ "nodejs" "python" ]' \
     --arg env '[]' \
     --out-link "$OUTLINK"
 
 bash_args=(
     -i # interactive
 )
-bash --init-file <(echo "PATH=$OUTLINK/bin:$PATH") "${bash_args[@]}"
+PATH="$OUTLINK/bin:$PATH" \
+    DUNE_ROOT="$PWD" \
+    DUNE_ENV_SOME_VAR="hello" \
+    bash  "${bash_args[@]}"
 
 run rm "$OUTLINK"
 run rmdir "$(dirname "$OUTLINK")"
