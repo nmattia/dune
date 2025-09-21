@@ -10,42 +10,11 @@ rec {
 
     set -euo pipefail
 
-    # DUNE_ROOT: the sandbox root. Anything higher up will be denied access.
-    dune_root="''${DUNE_ROOT:?No DUNE_ROOT}"
-    unset DUNE_ROOT
-
-    # DUNE_UNTRUSTED_PATH: colon-separated list of directories to sandbox
-    DUNE_UNTRUSTED_PATH=${builtins.concatStringsSep ":" paths}
-    dune_untrusted_path="''${DUNE_UNTRUSTED_PATH:?No DUNE_UNTRUSTED_PATH}"
-    unset DUNE_UNTRUSTED_PATH
-
-    # remove the sandbox path from the PATH so that
-    # executables can call the un-sandboxed exes (top-level is still
-    # sandboxed). Nested sandboxing is an error.
-    here="$(dirname "$0")"
-    PATH="''${PATH#$here:?}" # remove "$here" from "$PATH"
-
-    exe_name="$(basename "$0")"
-    exe="$(PATH="$dune_untrusted_path" command -v "$exe_name")"
-
-    # DUNE_ENV_FOO: environment to set in the sandbox
-    # Read NUL-delimited env vars: DUNE_ENV_FOO=hello, world!
-    while IFS= read -r -d ''' rec; do
-        [[ $rec == DUNE_ENV_*=* ]] || continue
-
-        name_full=''${rec%%=*}          # "DUNE_ENV_FOO"
-        val=''${rec#*=}                 # "hello, world!"
-        name=''${name_full#DUNE_ENV_}   # "FOO"
-
-        unset "$name_full"
-
-        export "$name=$val"
-    done < <(env -0)
-
-    # make unsandboxed bins available
-    PATH="$dune_untrusted_path:$PATH"
-
-    exec ${./sandboxer} --root "$dune_root" --home "$HOME" -- "$exe" "$@"
+    DUNE_UNTRUSTED_PATH=${builtins.concatStringsSep ":" paths} \
+        DUNE_EXE_NAME="$(basename "$0")" \
+        DUNE_SANDBOX_DIR="$(dirname "$0")" \
+        DUNE_SANDBOXER=${./sandboxer} \
+        exec ${./dune-runner} "$@"
   '';
 
   # note: if called directly, 'paths' should be strings for things like /bin, _not_ paths
