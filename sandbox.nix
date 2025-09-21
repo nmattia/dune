@@ -5,21 +5,6 @@ let
 in
 rec {
 
-
-  mkProfile = { user, path }: pkgs.writeText "profile.sb" ''
-    (version 1)
-    (allow default)
-    (allow network*)
-    (deny file* (subpath "/Users/${user}"))
-    (allow file-read-metadata (subpath "/Users/${user}"))
-    (allow file* (subpath "${path}"))
-    (deny file* (subpath "/Applications"))
-    (deny file* (subpath "/Users/${user}/Applications"))
-    (allow file* (subpath "/Users/${user}/Library/Application Support"))
-    (allow file* (subpath "/Users/${user}/Library/Caches"))
-  '';
-
-
   sandboxExeWrapper = { user, path, paths, env /* list of "FOO=BAR" */ }: pkgs.writeText "sandbox-wrapper" ''
     #!/usr/bin/env bash
     set -euo pipefail
@@ -30,10 +15,10 @@ rec {
     here="$(dirname "$0")"
     PATH="''${PATH#$here:?}"
     export PATH=${builtins.concatStringsSep ":" paths}:$PATH
+    home="$HOME"
     ${ builtins.concatStringsSep "\n" (map (kv: "export ${kv}") env)}
-    profile=${mkProfile {inherit user path;}}
     exe=$(which $(basename "$0"))
-    exec /usr/bin/sandbox-exec -f "$profile" "$exe" "$@"
+    exec ${./sandboxer} --root ${path} --home "$home" -- "$exe" "$@"
   '';
 
   # note: if called directly, 'paths' should be strings for things like /bin, _not_ paths

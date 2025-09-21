@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# USAGE #
+
+function title() {
+    echo >&2 "$(basename "$0") — run a command in a sandbox"
+}
+
+function usage() {
+    cat >&2 << EOF
+
+Usage:
+  $(basename "$0") --root PATH --home PATH -- <command> [args...]
+
+Options:
+  --root PATH       Absolute path allowed for full file access from the sandbox.
+  --home PATH       Absolute path to the user's home; access is denied by default
+                        except for ~/Library/Application Support and ~/Library/Caches.
+  --help            Show help and exit.
+
+Use ‘--’ to terminate options and pass the command to sandbox unchanged.
+Examples:
+  $(basename "$0") --root /tmp/work --home /Users/alice -- /usr/bin/python3 script.py
+EOF
+}
+
+
+# ARGUMENT PARSING
+declare sandbox_root=
+declare user_home=
+
+while [[ $# -gt 0 ]]
+do
+    case $1 in
+        --help)
+            title
+            usage
+            exit 0
+            ;;
+        --root)
+            sandbox_root="${2:?missing value for '--root'}"
+            shift; # shift past --root and value
+            shift;
+            ;;
+        --home)
+            user_home="${2:?missing value for '--home'}"
+            shift; # shift past --home and value
+            shift;
+            ;;
+        --)
+            shift; # consume '--'
+            break; # stop parsing arguments
+            ;;
+        *)
+            echo >&2 "ERROR: unknown argument $1"
+            usage
+            echo >&2
+            echo >&2 "Use '$(basename "$0") --help' for more information."
+            exit 1
+            ;;
+    esac
+done
+
+[[ -n "$sandbox_root" ]] || { echo >&2 "error: --root not set"; usage; exit 1; }
+[[ -d "$sandbox_root" ]] || { echo >&2 "error: --root not a directory"; usage; exit 1; }
+
+[[ -n "$user_home" ]] || { echo >&2 "error: --home not set"; usage; exit 1; }
+[[ -d "$user_home"    ]] || { echo >&2 "error: --home not a directory"; usage; exit 1; }
+
+[[ "$sandbox_root" = /* && "$user_home" = /* ]] || { echo >&2 "error: paths must be absolute"; usage; exit 1; }
+
+[[ $# -gt 0 ]] || { echo >&2 "error: no command specified"; usage; exit 1; }
+
+sandbox_profile=$(cat <<'EOF'
+(version 1)
+(allow default)
+(allow network*)
+
+;; can be set like this:
+;;    /usr/bin/sandbox-exec ... -D key=value ...
+(define sandbox_root (param "root"))
+(define user_home (param "home"))
+
+(deny file* (subpath user_home))
+(allow file-read-metadata (subpath user_home))
+(allow file* (subpath sandbox_root))
+(deny file* (subpath "/Applications"))
+(deny file* (subpath (string-append user_home "/Applications")))
+(allow file* (subpath (string-append user_home "/Library/Application Support")))
+(allow file* (subpath (string-append user_home "/Library/Caches")))
+EOF
+)
+
+# note: we use `-f` and pass a file descriptor instead of `-p` which takes
+# a string. This avoids polluting the args with a huge string.
+exec /usr/bin/sandbox-exec \
+    -f <(printf '%s' "$sandbox_profile") \
+    -D root="$sandbox_root" -D home="$user_home" -- "$@"
