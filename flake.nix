@@ -2,10 +2,11 @@
   outputs = { self }:
     let
       libFor = system: {
+        lib = import ./lib.nix { inherit system; };
         pkgs = import ./packages.nix { inherit system; };
-        sandbox = import ./sandbox.nix { lib = self.lib.${system}; };
+        sandbox = import ./sandbox.nix { lib = self.lib.${system}.lib; };
         shellWithPackages = { packageNames }: self.lib.${system}.sandbox.sandboxExes {
-          paths = map (package: self.lib.pkgs.${package}.bin) packageNames;
+          paths = map (package: self.lib.${system}.pkgs.${package}.bin) packageNames;
         };
       };
     in

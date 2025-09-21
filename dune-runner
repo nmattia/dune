@@ -28,6 +28,7 @@ unset DUNE_EXE_NAME
 PATH="${PATH#"${dune_sandbox_dir}":?}" # remove "$dune_sandbox_dir" from "$PATH"
 
 exe="$(PATH="$dune_untrusted_path" command -v "$dune_exe_name")"
+home="$HOME" # NOTE: must happen before we (potentially) set HOME from DUNE_ENV_HOME
 
 # DUNE_ENV_FOO: environment to set in the sandbox
 # Read NUL-delimited env vars: DUNE_ENV_FOO=hello, world!
@@ -46,4 +47,4 @@ done < <(env -0)
 # make unsandboxed bins available
 PATH="$dune_untrusted_path:$PATH"
 
-exec -a "$dune_exe_name" "$dune_sandboxer" --root "$dune_root" --home "$HOME" -- "$exe" "$@"
+exec -a "$dune_exe_name" "$dune_sandboxer" --root "$dune_root" --home "$home" -- "$exe" "$@"

@@ -15,7 +15,7 @@ Usage:
   $(basename "$0") --root PATH --home PATH -- <command> [args...]
 
 Options:
-  --root PATH       Absolute path allowed for full file access from the sandbox.
+  --root PATH       Absolute path allowed for full file access from the sandbox (boundary).
   --home PATH       Absolute path to the user's home; access is denied by default
                         except for ~/Library/Application Support and ~/Library/Caches.
   --help            Show help and exit.
