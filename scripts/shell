@@ -23,12 +23,7 @@ function run() {
 
 OUTLINK="$(mktemp -d)/link"
 INIT_FILE="$(mktemp)"
-run nix build -f "$ROOT/default.nix" \
-    --print-build-logs \
-    --argstr user "$USER" \
-    --arg packages '[ "nodejs" "python" ]' \
-    --arg env '[]' \
-    --out-link "$OUTLINK"
+run nix build .#shell --print-build-logs --out-link "$OUTLINK"
 
 bash_args=(
     -i # interactive
