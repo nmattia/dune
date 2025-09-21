@@ -53,20 +53,20 @@ rec {
     let
       wrapper = "${sandboxExeWrapper { inherit paths; }}/bin/sandbox-wrapper";
     in
-      lib.runCommand "sandbox" { inherit paths; } ''
-    export PATH=/usr/bin:/bin
+    lib.runCommand "sandbox" { inherit paths; } ''
+      export PATH=/usr/bin:/bin
 
-    mkdir -p $out/bin
+      mkdir -p $out/bin
 
-    for bit in $paths; do
-      echo looking for executables in "$bit"
+      for bit in $paths; do
+        echo looking for executables in "$bit"
 
-      for exe in $(find "$bit" -maxdepth 1 -perm +111 -not -type d); do
-        exe=$(basename "$exe")
-        echo found exe "$exe"
+        for exe in $(find "$bit" -maxdepth 1 -perm +111 -not -type d); do
+          exe=$(basename "$exe")
+          echo found exe "$exe"
 
-        ln -s "${wrapper}" $out/bin/$exe
+          ln -s "${wrapper}" $out/bin/$exe
+        done
       done
-    done
-  '';
+    '';
 }
