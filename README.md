@@ -54,4 +54,5 @@ ln -s .dune/.envrc .envrc
 # hide dune files from git
 echo '.dune' >> .git/info/exclude
 echo '.envrc' >> .git/info/exclude
+echo '.home' >> .git/info/exclude
 ```
