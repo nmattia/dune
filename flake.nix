@@ -15,6 +15,6 @@
       lib.aarch64-darwin = libFor "aarch64-darwin";
       lib.x86_64-darwin = libFor "x86_64-darwin";
       packages.aarch64-darwin.shell = self.lib.aarch64-darwin.shellWithPackages { packageNames = [ "python" "nodejs" ]; };
-      packages.x86_64-darwin.shell = self.lib.x86_64-darwin.shellWithPackages { packageNames = [ "rustc" "cargo" ]; };
+      packages.x86_64-darwin.shell = self.lib.x86_64-darwin.shellWithPackages { packageNames = [ "python" "nodejs" ]; };
     };
 }
