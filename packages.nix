@@ -10,7 +10,7 @@ let
       platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${system};
       rust-toolchain-url = "https://static.rust-lang.org/dist/rust-${rustc-version}-${platform}.pkg";
       rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${system};
-      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; }.${system};
+      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; x86_64-darwin = sha256:0prg4k6nyvmh9wkalimyijjzz1zr81ybyhs6i5dk0fgsig7akgy3; }.${system};
       rust-toolchain-src = builtins.fetchurl {
         url = rust-toolchain-url;
         sha256 = rust-toolchain-sha256;
