@@ -51,6 +51,7 @@ EOF
 
 ln -s .dune/.envrc .envrc
 
-# hide .dune dir from git
+# hide dune files from git
 echo '.dune' >> .git/info/exclude
+echo '.envrc' >> .git/info/exclude
 ```
