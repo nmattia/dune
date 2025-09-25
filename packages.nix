@@ -333,10 +333,11 @@ rec
 
   bazelisk =
     let
-      bazelisk-src = builtins.fetchurl {
-        url = https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-darwin-amd64;
-        sha256 = sha256:1gs5fml4nl4arzykwnwhffwnbwk4ip8wmspwz5nnak3ha66j59ji;
-      };
+      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${system};
+      version = "1.20.0";
+      url = "https://github.com/bazelbuild/bazelisk/releases/download/v${version}/bazelisk-${platform}";
+      sha256 = { aarch64-darwin = sha256:19k75b03wdkms0yl7hnc3gw3xf50pdzj83i4zcqmkhyxq10k6x99; x86_64-darwin = sha256:1gs5fml4nl4arzykwnwhffwnbwk4ip8wmspwz5nnak3ha66j59ji; }.${system};
+      bazelisk-src = builtins.fetchurl { inherit url sha256; };
     in
     {
       bin = lib.runCommand "bazelisk" { } ''
