@@ -16,12 +16,21 @@ rec {
         exec ${./dune-runner} "$@"
   '';
 
+  # helper to run any command inside the (sandboxed) dune environment
+  duneExec = lib.writeScriptBin "dune-exec" ''
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    exec -a "$(basename "$0")" "$@"
+  '';
+
   # note: if called directly, 'paths' should be strings for things like /bin, _not_ paths
   sandboxExes = { paths }:
     let
-      wrapper = "${sandboxExeWrapper { inherit paths; }}/bin/sandbox-wrapper";
+      paths_ = paths ++ [ "${duneExec}/bin" ];
+      wrapper = "${sandboxExeWrapper { paths = paths_; }}/bin/sandbox-wrapper";
     in
-    lib.runCommand "sandbox" { inherit paths; } ''
+    lib.runCommand "sandbox" { paths = paths_; } ''
       export PATH=/usr/bin:/bin
 
       mkdir -p $out/bin
