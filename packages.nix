@@ -13,6 +13,10 @@ let
         inherit (sources."rust-toolchain-${platform}") url sha256;
       };
 
+      rust-src = builtins.fetchTarball {
+        inherit (sources."rust-src") url sha256;
+      };
+
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
       # https://github.com/rust-lang/cargo/issues/9733
       rust-std-wasm32 = builtins.fetchTarball {
@@ -48,6 +52,8 @@ let
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-riscv32imc-unknown-none-elf}/rust-std-riscv32imc-unknown-none-elf/lib/rustlib/riscv32imc-unknown-none-elf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rustfmt}/rustfmt-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
+
+      cp -r ${rust-src}/rust-src/lib/rustlib/src $out/rustc.pkg/Scripts/rustc/lib/rustlib/
 
       mv $out/rustc.pkg/Scripts/rustc/bin/rustc $out/rustc.pkg/Scripts/rustc/bin/.rustc
 
