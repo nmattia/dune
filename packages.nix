@@ -30,6 +30,13 @@ let
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
         sha256 = sha256:0l5mn09c721vvk6ibxs68ksk5vhxzn4dc6w193xzg4j52d7mc4ph;
       };
+
+      # for ESP32-C3
+      rust-std-riscv32imc-unknown-none-elf = builtins.fetchTarball {
+        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-riscv32imc-unknown-none-elf.tar.gz";
+        sha256 = sha256:1fx3yga7k867g29hv16d4ca0y02v7cgp1ifpap18y0awnlrvb1qp;
+      };
+
       rustfmt = builtins.fetchTarball {
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rustfmt-${rustc-version}-${platform}.tar.gz";
         sha256 = rustfmt-sha256;
@@ -43,6 +50,7 @@ let
       cp -r ${rust-std-wasm32}/rust-std-wasm32-unknown-unknown/lib/rustlib/wasm32-unknown-unknown $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv6m-none-eabi}/rust-std-thumbv6m-none-eabi/lib/rustlib/thumbv6m-none-eabi $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
+      cp -r ${rust-std-riscv32imc-unknown-none-elf}/rust-std-riscv32imc-unknown-none-elf/lib/rustlib/riscv32imc-unknown-none-elf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rustfmt}/rustfmt-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
 
       mv $out/rustc.pkg/Scripts/rustc/bin/rustc $out/rustc.pkg/Scripts/rustc/bin/.rustc
