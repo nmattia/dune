@@ -1,19 +1,16 @@
 { system }:
 let
   lib = import ./lib.nix { inherit system; };
+  sources = builtins.fromJSON (builtins.readFile ./nix/sources.json);
   rustToolchain =
 
     let
-
-      rustc-version = "1.82.0";
-      rustc-release-date = "2024-10-17";
       platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${system};
-      rust-toolchain-url = "https://static.rust-lang.org/dist/rust-${rustc-version}-${platform}.pkg";
-      rust-toolchain-sha256 = { aarch64-darwin = sha256:debd61892a105250c66822b4fb98a1a2920384236bbf608ab2985be159d1a79c; x86_64-darwin = sha256:0z2nv787h0zys26643bbgf44farcyxnjb64ab6vgg2rywl5bdv97; }.${system};
-      rustfmt-sha256 = { aarch64-darwin = sha256:0j6ppncz75jlbil13qfb366d6sxlzlca7c0xhb4kb2mmxqr8s0y7; x86_64-darwin = sha256:0prg4k6nyvmh9wkalimyijjzz1zr81ybyhs6i5dk0fgsig7akgy3; }.${system};
+      rust-toolchain = sources."rust-toolchain-${platform}";
+      rustc-version = rust-toolchain.rustc-version;
+      rustc-release-date = rust-toolchain.rustc-release-date;
       rust-toolchain-src = builtins.fetchurl {
-        url = rust-toolchain-url;
-        sha256 = rust-toolchain-sha256;
+        inherit (sources."rust-toolchain-${platform}") url sha256;
       };
 
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
@@ -38,8 +35,7 @@ let
       };
 
       rustfmt = builtins.fetchTarball {
-        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rustfmt-${rustc-version}-${platform}.tar.gz";
-        sha256 = rustfmt-sha256;
+        inherit (sources."rustfmt-${platform}") url sha256;
       };
 
     in
