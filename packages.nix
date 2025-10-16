@@ -24,8 +24,7 @@ let
         sha256 = sha256:012wfz6qgzhyqwyc9nqwrk5p5a2j4c7i8d5c230dr51afnyl6z6h;
       };
       rust-std-thumbv6m-none-eabi = builtins.fetchTarball {
-        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv6m-none-eabi.tar.gz";
-        sha256 = sha256:13f9dxk14ihjakzpk3c3mvzfkxpa1wks5v9bd5xv0lhq32h2kv2y;
+        inherit (sources."rust-std-thumbv6m-none-eabi") url sha256;
       };
       rust-std-thumbv7em-none-eabihf = builtins.fetchTarball {
         url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";

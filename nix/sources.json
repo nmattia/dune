@@ -7,6 +7,14 @@
         "url": "https://static.rust-lang.org/dist/2025-09-18/rust-src-1.90.0.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-src-<rustc-version>.tar.gz"
     },
+    "rust-std-thumbv6m-none-eabi": {
+        "rustc-release-date": "2025-09-18",
+        "rustc-version": "1.90.0",
+        "sha256": "0jxahasyfbhfbhcn9c81cahkzm0sf56k7vmdbcqvyfjyrvwzrnqc",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-thumbv6m-none-eabi.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-thumbv6m-none-eabi.tar.gz"
+    },
     "rust-toolchain-aarch64-apple-darwin": {
         "platform": "aarch64-apple-darwin",
         "rustc-release-date": "2025-09-18",
