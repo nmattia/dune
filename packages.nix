@@ -41,6 +41,10 @@ let
         inherit (sources."rustfmt-${platform}") url sha256;
       };
 
+      clippy = builtins.fetchTarball {
+        inherit (sources."clippy-${platform}") url sha256;
+      };
+
     in
     lib.runCommand "rust" { } ''
       export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
@@ -51,6 +55,7 @@ let
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-riscv32imc-unknown-none-elf}/rust-std-riscv32imc-unknown-none-elf/lib/rustlib/riscv32imc-unknown-none-elf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rustfmt}/rustfmt-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
+      cp -r ${clippy}/clippy-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
 
       cp -r ${rust-src}/rust-src/lib/rustlib/src $out/rustc.pkg/Scripts/rustc/lib/rustlib/
 
