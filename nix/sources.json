@@ -23,6 +23,14 @@
         "url": "https://static.rust-lang.org/dist/2025-09-18/rust-src-1.90.0.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-src-<rustc-version>.tar.gz"
     },
+    "rust-std-riscv32imc-unknown-none-elf": {
+        "rustc-release-date": "2025-09-18",
+        "rustc-version": "1.90.0",
+        "sha256": "0lf279myn56nhkqiv54hfl59m8ri543gr1y7l6jkaz110v89cb7h",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-riscv32imc-unknown-none-elf.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-riscv32imc-unknown-none-elf.tar.gz"
+    },
     "rust-std-thumbv6m-none-eabi": {
         "rustc-release-date": "2025-09-18",
         "rustc-version": "1.90.0",
@@ -30,6 +38,22 @@
         "type": "tarball",
         "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-thumbv6m-none-eabi.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-thumbv6m-none-eabi.tar.gz"
+    },
+    "rust-std-thumbv7em-none-eabihf": {
+        "rustc-release-date": "2025-09-18",
+        "rustc-version": "1.90.0",
+        "sha256": "0c92vf4y9w9b8l6zwlf15r26h62p4z44v9vls0mg020icdabhkq7",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-thumbv7em-none-eabihf.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-thumbv7em-none-eabihf.tar.gz"
+    },
+    "rust-std-wasm32": {
+        "rustc-release-date": "2025-09-18",
+        "rustc-version": "1.90.0",
+        "sha256": "15gx44w0l5c4bch2hq77s7grrmsap8pycmqwvd1vicq5m2lzirv0",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-wasm32-unknown-unknown.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-wasm32-unknown-unknown.tar.gz"
     },
     "rust-toolchain-aarch64-apple-darwin": {
         "platform": "aarch64-apple-darwin",

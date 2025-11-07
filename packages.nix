@@ -20,21 +20,18 @@ let
       # found in https://static.rust-lang.org/dist/channel-rust-stable.toml through
       # https://github.com/rust-lang/cargo/issues/9733
       rust-std-wasm32 = builtins.fetchTarball {
-        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-wasm32-unknown-unknown.tar.gz";
-        sha256 = sha256:012wfz6qgzhyqwyc9nqwrk5p5a2j4c7i8d5c230dr51afnyl6z6h;
+        inherit (sources."rust-std-wasm32") url sha256;
       };
       rust-std-thumbv6m-none-eabi = builtins.fetchTarball {
         inherit (sources."rust-std-thumbv6m-none-eabi") url sha256;
       };
       rust-std-thumbv7em-none-eabihf = builtins.fetchTarball {
-        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-thumbv7em-none-eabihf.tar.gz";
-        sha256 = sha256:0l5mn09c721vvk6ibxs68ksk5vhxzn4dc6w193xzg4j52d7mc4ph;
+        inherit (sources."rust-std-thumbv7em-none-eabihf") url sha256;
       };
 
       # for ESP32-C3
       rust-std-riscv32imc-unknown-none-elf = builtins.fetchTarball {
-        url = "https://static.rust-lang.org/dist/${rustc-release-date}/rust-std-${rustc-version}-riscv32imc-unknown-none-elf.tar.gz";
-        sha256 = sha256:1fx3yga7k867g29hv16d4ca0y02v7cgp1ifpap18y0awnlrvb1qp;
+        inherit (sources."rust-std-riscv32imc-unknown-none-elf") url sha256;
       };
 
       rustfmt = builtins.fetchTarball {
