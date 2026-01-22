@@ -411,4 +411,21 @@ rec
         cp nsc $out/nsc
       '';
     };
+
+  arm-none-eabi-gcc =
+    let
+      platform = { aarch64-darwin = "darwin-arm64"; }.${system};
+      version = "15.2.rel1";
+      # From: https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
+      src = builtins.fetchurl { url = "https://developer.arm.com/-/media/Files/downloads/gnu/${version}/binrel/arm-gnu-toolchain-${version}-${platform}-arm-none-eabi.tar.xz"; sha256 = sha256:1a39hvv41k88wrd52h5bvpvjbx15pa9yi9agzgir5h85f55shf0r; };
+      unpacked = lib.runCommand "arm-none-eabi-gcc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        cp ${src} ./gcc.tar.xz
+        tar -xvzf ./gcc.tar.xz
+        mkdir -p $out/
+        cp -r ./arm-*/ $out
+      '';
+    in
+
+    { bin = "${unpacked}/bin"; };
 }
