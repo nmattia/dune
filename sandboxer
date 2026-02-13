@@ -18,6 +18,7 @@ Options:
   --root PATH       Absolute path allowed for full file access from the sandbox (boundary).
   --home PATH       Absolute path to the user's home; access is denied by default
                         except for ~/Library/Application Support and ~/Library/Caches.
+  --jailbreak PATHS A colon-separated list of binaries (absolute paths) to jailbreak.
   --help            Show help and exit.
 
 Use ‘--’ to terminate options and pass the command to sandbox unchanged.
@@ -30,6 +31,7 @@ EOF
 # ARGUMENT PARSING
 declare sandbox_root=
 declare user_home=
+declare jailbreak=
 
 while [[ $# -gt 0 ]]
 do
@@ -47,6 +49,18 @@ do
         --home)
             user_home="${2:?missing value for '--home'}"
             shift; # shift past --home and value
+            shift;
+            ;;
+        --jailbreak)
+            jailbroken="${2:?missing value for '--jailbreak'}"
+
+            # shenanigans for bash 3 not liking empty arrays
+            if [ -n "${jailbreak:-}" ]; then
+                jailbreak+=( "$jailbroken" )
+            else
+                jailbreak=( "$jailbroken" )
+            fi
+            shift; # shift past --jailbreak and value
             shift;
             ;;
         --)
@@ -92,6 +106,12 @@ sandbox_profile=$(cat <<'EOF'
 (allow file* (subpath (string-append user_home "/Library/Caches")))
 EOF
 )
+
+if [ -n "${jailbreak}" ]; then
+    for jailbroken in "${jailbreak[@]}"; do
+        sandbox_profile="${sandbox_profile}(allow process-exec (literal \"${jailbreak}\")(with no-sandbox))"
+    done
+fi
 
 # note: we use `-f` and pass a file descriptor instead of `-p` which takes
 # a string. This avoids polluting the args with a huge string.

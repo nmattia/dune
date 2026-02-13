@@ -44,6 +44,21 @@ while IFS= read -r -d '' rec; do
     export "$name=$val"
 done < <(env -0)
 
+# DUNE_JAILBREAK: ':'-separated list of binaries (full path) to jailbreak.
+# Those won't be impacted by the sandbox profile but will still see the DUNE_ENV
+# variables.
+if [ -n "${DUNE_JAILBREAK:-}" ]; then
+    IFS=':' read -ra jailbreaks <<<"${DUNE_JAILBREAK:-}"
+
+    for jailbreak in "${jailbreaks[@]}"; do
+        if [ -n "${dune_jailbreaks:-}" ]; then
+            dune_jailbreaks+=( --jailbreak "$jailbreak" )
+        else
+            dune_jailbreaks=( --jailbreak "$jailbreak" )
+        fi
+    done <<< "${DUNE_JAILBREAK}"
+fi
+
 # make unsandboxed bins available
 dune_path="$dune_untrusted_path:$PATH"
 
@@ -54,4 +69,14 @@ if [ -n "${DUNE_PATH:-}" ]; then
     unset DUNE_PATH
 fi
 
-PATH="$dune_path" exec -a "$dune_exe_name" "$dune_sandboxer" --root "$dune_root" --home "$home" -- "$exe" "$@"
+sandboxer_args=(
+    --root "$dune_root"
+    --home "$home"
+    )
+
+
+if [ -n "${dune_jailbreaks:-}" ]; then
+    sandboxer_args+=( "${dune_jailbreaks[@]}" )
+fi
+
+PATH="$dune_path" exec -a "$dune_exe_name" "$dune_sandboxer" "${sandboxer_args[@]}" -- "$exe" "$@"

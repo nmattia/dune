@@ -45,8 +45,12 @@ export DUNE_ROOT="$PWD"
 # set some env vars in the sandbox
 export DUNE_ENV_HOME="$PWD/.home" # create a fake home to avoid global littering
 
+# jailbreak some processes that don't like being sandboxed
+export DUNE_JAILBREAK="$(which podman):$(which bazel)"
+
 # more regular direnv env vars if necessary
 export RUSTC_BOOTSTRAP=1
+export DOCKER="HOME=$HOME podman" # overrides fake HOME for podman
 EOF
 
 ln -s .dune/.envrc .envrc
