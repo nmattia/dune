@@ -343,6 +343,53 @@ rec
       '';
     };
 
+  # mostly used in python build
+  zstd =
+    let
+      src = builtins.fetchTarball {
+        url = "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz";
+        sha256 = sha256:13jbpfhx3as4494k2x9fci1c54mrrij74mn70wrzlxbj7whmdldl;
+      };
+
+      toplevel = lib.runCommand "zstd-src" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin:/sbin:${cmake.bin}
+        mkdir -p build
+
+
+        cmake -S ${src}/build/cmake -B ./build -DCMAKE_INSTALL_PREFIX="$out"
+        cmake --build ./build --target zstd
+
+        mkdir -p $out
+        install -Dm755 build/programs/zstd "$out/zstd"
+      '';
+    in
+
+    {
+      bin = toplevel;
+    }
+  ;
+
+
+  buck2 =
+    let
+      platform = { aarch64-darwin = "aarch64-apple-darwin"; }.${system};
+      sha256 = { aarch64-darwin = sha256:0ypzm8j5vj3a02xmdqq630dhy1dsp5a6zr7513sj9qiinsdd183p; }.${system};
+      version = "2026-02-01";
+      url = "https://github.com/facebook/buck2/releases/download/${version}/buck2-${platform}.zst";
+      buck2-zst = builtins.fetchurl { inherit url sha256; };
+    in
+    {
+      bin = lib.runCommand "buck2" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin:${zstd.bin}
+        ls "${buck2-zst}"
+        mkdir -p build
+        zstd -d "${buck2-zst}" -o build/buck2
+        mkdir -p $out
+        install -Dm755 "build/buck2" "$out/buck2"
+      '';
+    };
+
+
   bazelisk =
     let
       platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-amd64"; }.${system};
