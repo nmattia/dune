@@ -213,7 +213,7 @@ rec
         sha256 = sha256:1by6j3k4zrjqpr249w1x6403xv64djhcfnw9139mjwdv1nnny7dz;
       };
 
-      toplevel = lib.runCommand "pysrc" { } ''
+      toplevel = lib.runCommand "openssl-src" { } ''
         export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
 
         ${src}/configure \
