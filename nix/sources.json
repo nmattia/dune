@@ -16,11 +16,11 @@
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-x86_64-apple-darwin.tar.gz"
     },
     "nsc-amd64-darwin": {
-        "sha256": "13hmwc2cl0aqfi7c8l2i2qn8zjffzrn5c44i2w8pfpdba1izca9i",
+        "sha256": "0bapsfdp1nqmfgrcw8wmxqk86a7p634pz138z0dlw4mkdcpszckm",
         "type": "file",
-        "url": "https://get.namespace.so/packages/nsc/v0.0.412/nsc_0.0.412_darwin_amd64.tar.gz",
+        "url": "https://get.namespace.so/packages/nsc/v0.0.486/nsc_0.0.486_darwin_amd64.tar.gz",
         "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_amd64.tar.gz",
-        "version": "0.0.412"
+        "version": "0.0.486"
     },
     "nsc-arm64-darwin": {
         "sha256": "0m24wci39sj78vqn2v8sxnmz4wdjras96q0ib1c4gwn2r8fxjadc",
