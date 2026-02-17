@@ -15,6 +15,20 @@
         "url": "https://static.rust-lang.org/dist/2025-09-18/clippy-1.90.0-x86_64-apple-darwin.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-x86_64-apple-darwin.tar.gz"
     },
+    "nsc-amd64-darwin": {
+        "sha256": "13hmwc2cl0aqfi7c8l2i2qn8zjffzrn5c44i2w8pfpdba1izca9i",
+        "type": "file",
+        "url": "https://get.namespace.so/packages/nsc/v0.0.412/nsc_0.0.412_darwin_amd64.tar.gz",
+        "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_amd64.tar.gz",
+        "version": "0.0.412"
+    },
+    "nsc-arm64-darwin": {
+        "sha256": "0m24wci39sj78vqn2v8sxnmz4wdjras96q0ib1c4gwn2r8fxjadc",
+        "type": "file",
+        "url": "https://get.namespace.so/packages/nsc/v0.0.486/nsc_0.0.486_darwin_arm64.tar.gz",
+        "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_arm64.tar.gz",
+        "version": "0.0.486"
+    },
     "rust-src": {
         "rustc-release-date": "2025-09-18",
         "rustc-version": "1.90.0",

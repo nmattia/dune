@@ -445,15 +445,15 @@ rec
 
   nsc =
     let
-      platform = { aarch64-darwin = { os = "darwin"; arch = "arm64"; }; x86_64-darwin = { os = "darwin"; arch = "amd64"; }; }.${system};
-      sha256 = { aarch64-darwin = sha256:1pkcmjfv7ryxz8xbdsp7y08c32qhjd1g0hya336403gfwnx550gz; x86_64-darwin = sha256:13hmwc2cl0aqfi7c8l2i2qn8zjffzrn5c44i2w8pfpdba1izca9i; }.${system};
-      version = "0.0.412";
-      nsc-src = builtins.fetchurl { url = "https://get.namespace.so/packages/nsc/v${version}/nsc_${version}_${platform.os}_${platform.arch}.tar.gz"; name = "nsc.tar.gz";  inherit sha256; };
+      platform = { aarch64-darwin = "arm64-darwin"; x86_64-darwin = "amd64-darwin"; }.${system};
+      nsc-tarball = builtins.fetchurl {
+        inherit (sources."nsc-${platform}") url sha256;
+      };
     in
     {
-      bin = lib.runCommand "dfx" { } ''
+      bin = lib.runCommand "nsc" { } ''
         export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
-        cp ${nsc-src} ./out.tar.gz
+        cp ${nsc-tarball} ./out.tar.gz
         tar -xvzf ./out.tar.gz
         mkdir -p $out
         cp nsc $out/nsc
