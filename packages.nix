@@ -443,6 +443,24 @@ rec
       '';
     };
 
+  devbox =
+    let
+      platform = { aarch64-darwin = "arm64-darwin"; x86_64-darwin = "amd64-darwin"; }.${system};
+      devbox-tarball = builtins.fetchurl {
+        inherit (sources."devbox-${platform}") url sha256;
+      };
+    in
+    {
+      bin = lib.runCommand "devbox" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        cp ${devbox-tarball} ./out.tar.gz
+        tar -xvzf ./out.tar.gz
+        mkdir -p $out
+        cp devbox $out/devbox
+      '';
+    };
+
+
   nsc =
     let
       platform = { aarch64-darwin = "arm64-darwin"; x86_64-darwin = "amd64-darwin"; }.${system};
