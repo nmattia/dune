@@ -34,6 +34,11 @@ let
         inherit (sources."rust-std-riscv32imc-unknown-none-elf") url sha256;
       };
 
+      # for ESP32-C6
+      rust-std-riscv32imac-unknown-none-elf = builtins.fetchTarball {
+        inherit (sources."rust-std-riscv32imac-unknown-none-elf") url sha256;
+      };
+
       rustfmt = builtins.fetchTarball {
         inherit (sources."rustfmt-${platform}") url sha256;
       };
@@ -51,6 +56,7 @@ let
       cp -r ${rust-std-thumbv6m-none-eabi}/rust-std-thumbv6m-none-eabi/lib/rustlib/thumbv6m-none-eabi $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-thumbv7em-none-eabihf}/rust-std-thumbv7em-none-eabihf/lib/rustlib/thumbv7em-none-eabihf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rust-std-riscv32imc-unknown-none-elf}/rust-std-riscv32imc-unknown-none-elf/lib/rustlib/riscv32imc-unknown-none-elf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
+      cp -r ${rust-std-riscv32imac-unknown-none-elf}/rust-std-riscv32imac-unknown-none-elf/lib/rustlib/riscv32imac-unknown-none-elf $out/rustc.pkg/Scripts/rustc/lib/rustlib/
       cp -r ${rustfmt}/rustfmt-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
       cp -r ${clippy}/clippy-preview/bin/. $out/rustc.pkg/Scripts/rustc/bin
 

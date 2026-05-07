@@ -51,6 +51,14 @@
         "url": "https://static.rust-lang.org/dist/2025-09-18/rust-src-1.90.0.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-src-<rustc-version>.tar.gz"
     },
+    "rust-std-riscv32imac-unknown-none-elf": {
+        "rustc-release-date": "2025-09-18",
+        "rustc-version": "1.90.0",
+        "sha256": "10x0vy7vs2arxpcz0a27p8xagh0ph402minj7hj0vr5jhmp8y9jk",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2025-09-18/rust-std-1.90.0-riscv32imac-unknown-none-elf.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-std-<rustc-version>-riscv32imac-unknown-none-elf.tar.gz"
+    },
     "rust-std-riscv32imc-unknown-none-elf": {
         "rustc-release-date": "2025-09-18",
         "rustc-version": "1.90.0",
