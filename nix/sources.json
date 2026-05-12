@@ -16,18 +16,18 @@
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-x86_64-apple-darwin.tar.gz"
     },
     "devbox-amd64-darwin": {
-        "sha256": "1l3y27mh7knx8ycgbbgpbvampvc86n8nn7cx0jaa7nxf5y3jw8lw",
+        "sha256": "0z7zy1firw1s2kkcn6cpcsws39zz4p9n4bmyy188l2ac6ww8ndng",
         "type": "file",
-        "url": "https://github.com/namespacelabs/devbox/releases/download/v0.0.139/devbox_0.0.139_darwin_amd64.tar.gz",
+        "url": "https://github.com/namespacelabs/devbox/releases/download/v0.0.144/devbox_0.0.144_darwin_amd64.tar.gz",
         "url_template": "https://github.com/namespacelabs/devbox/releases/download/v<version>/devbox_<version>_darwin_amd64.tar.gz",
-        "version": "0.0.139"
+        "version": "0.0.144"
     },
     "devbox-arm64-darwin": {
-        "sha256": "156dn8dy7vh0iy7nbwp16xf6ly3wnpjprl10dsz4xivcm3w1whfi",
+        "sha256": "1wwz6amrhrb9vg6sjdbga1lfwpj5h1rmn8ad7hv2c2xppsb397pc",
         "type": "file",
-        "url": "https://github.com/namespacelabs/devbox/releases/download/v0.0.139/devbox_0.0.139_darwin_arm64.tar.gz",
+        "url": "https://github.com/namespacelabs/devbox/releases/download/v0.0.144/devbox_0.0.144_darwin_arm64.tar.gz",
         "url_template": "https://github.com/namespacelabs/devbox/releases/download/v<version>/devbox_<version>_darwin_arm64.tar.gz",
-        "version": "0.0.139"
+        "version": "0.0.144"
     },
     "nsc-amd64-darwin": {
         "sha256": "0bapsfdp1nqmfgrcw8wmxqk86a7p634pz138z0dlw4mkdcpszckm",
