@@ -29,6 +29,13 @@
         "url_template": "https://github.com/namespacelabs/devbox/releases/download/v<version>/devbox_<version>_darwin_arm64.tar.gz",
         "version": "0.0.159"
     },
+    "lilypond-arm64-darwin": {
+        "sha256": "12a284dx7fr7377g79qpkx7qrh184gg0gnqgsrg61213whyjxblz",
+        "type": "file",
+        "url": "https://gitlab.com/lilypond/lilypond/-/releases/v2.27.1/downloads/lilypond-2.27.1-darwin-arm64.tar.gz",
+        "url_template": "https://gitlab.com/lilypond/lilypond/-/releases/v<version>/downloads/lilypond-<version>-darwin-arm64.tar.gz",
+        "version": "2.27.1"
+    },
     "nsc-amd64-darwin": {
         "sha256": "0bapsfdp1nqmfgrcw8wmxqk86a7p634pz138z0dlw4mkdcpszckm",
         "type": "file",

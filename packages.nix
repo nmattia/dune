@@ -484,6 +484,23 @@ rec
       '';
     };
 
+  lilypond =
+    let
+      platform = { aarch64-darwin = "arm64-darwin"; x86_64-darwin = "amd64-darwin"; }.${system};
+      lilypond-tarball = builtins.fetchurl {
+        inherit (sources."lilypond-${platform}") url sha256;
+      };
+      unpacked = lib.runCommand "lilypond" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        mkdir -p $out
+        tar --strip-components=1 -xvzf ${lilypond-tarball} -C "$out"
+      '';
+    in
+    {
+      bin = "${unpacked}/bin";
+    };
+
+
   arm-none-eabi-gcc =
     let
       platform = { aarch64-darwin = "darwin-arm64"; }.${system};
