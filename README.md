@@ -60,3 +60,33 @@ echo '.dune' >> .git/info/exclude
 echo '.envrc' >> .git/info/exclude
 echo '.home' >> .git/info/exclude
 ```
+
+
+## Examples
+
+### NodeJS
+
+_.envrc_
+
+```bash
+# .envrc for direnv
+PATH_add "$(nix build .dune#shell --print-out-paths --no-link)/bin"
+
+# set the sandbox boundary
+export DUNE_ROOT="$PWD"
+
+# set some env vars in the sandbox
+export DUNE_ENV_HOME="$PWD/.home" # create a fake home to avoid global littering
+export DUNE_ENV_npm_config_cache="$PWD/.npm"
+```
+
+_flake.nix_
+
+```
+{
+  inputs.dune.url = "github:nmattia/dune";
+  outputs = { dune, ... }: {
+    packages.aarch64-darwin.shell = dune.lib.aarch64-darwin.shellWithPackages { packageNames = [ "nodejs" ]; };
+  };
+}
+```
