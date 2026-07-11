@@ -37,18 +37,18 @@
         "version": "2.27.1"
     },
     "nsc-amd64-darwin": {
-        "sha256": "0bapsfdp1nqmfgrcw8wmxqk86a7p634pz138z0dlw4mkdcpszckm",
+        "sha256": "0wdiwzmh3d90dl4jvzqjc7yq9nh6by1aa4jx2gxsgmg7fc3yw6vg",
         "type": "file",
-        "url": "https://get.namespace.so/packages/nsc/v0.0.486/nsc_0.0.486_darwin_amd64.tar.gz",
+        "url": "https://get.namespace.so/packages/nsc/v0.0.537/nsc_0.0.537_darwin_amd64.tar.gz",
         "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_amd64.tar.gz",
-        "version": "0.0.486"
+        "version": "0.0.537"
     },
     "nsc-arm64-darwin": {
-        "sha256": "0m24wci39sj78vqn2v8sxnmz4wdjras96q0ib1c4gwn2r8fxjadc",
+        "sha256": "1arhck5c2ah8kax1mf50ysb9v5k5lr2qdf8qxy60wz72pplcafsy",
         "type": "file",
-        "url": "https://get.namespace.so/packages/nsc/v0.0.486/nsc_0.0.486_darwin_arm64.tar.gz",
+        "url": "https://get.namespace.so/packages/nsc/v0.0.537/nsc_0.0.537_darwin_arm64.tar.gz",
         "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_arm64.tar.gz",
-        "version": "0.0.486"
+        "version": "0.0.537"
     },
     "rust-src": {
         "rustc-release-date": "2025-09-18",
