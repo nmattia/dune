@@ -202,6 +202,55 @@ rec
   rustc = { bin = "${rustToolchain}/rustc.pkg/Scripts/rustc/bin"; };
   cargo = { bin = "${rustToolchain}/cargo.pkg/Scripts/cargo/bin"; };
 
+  # Haskell
+
+  cabal =
+    let
+      version = "3.9.0.0";
+      version_short = "3.9"; # ...
+      platform = { aarch64-darwin = "aarch64-darwin"; x86_64-darwin = "x86_64-darwin"; }.${system};
+      sha256 = { aarch64-darwin = sha256:075n070q5airbnjdp840giggrd2nk37gmj67z6vlnipqkql73vxg; x86_64-darwin = sha256:1ipx2zhxpmvkv98haad8scg00n8xg9nhcjy2zxd7zf6yngxvhzh6; }.${system};
+      url = "https://downloads.haskell.org/~cabal/cabal-install-${version}/cabal-install-${version_short}-${platform}.tar.xz";
+      src = builtins.fetchurl { inherit url sha256; };
+
+      unpacked = lib.runCommand "cabal" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        echo "copying cabal"
+        cp ${src} ./cabal.tar.xz
+        echo "unpacking cabal"
+        tar -xzf ./cabal.tar.xz
+        mkdir -p $out/bin
+        cp ./cabal $out/bin/cabal
+      '';
+    in
+    {
+      bin = "${unpacked}/bin";
+    }
+  ;
+
+  ghc =
+    let
+      version = "9.12.4";
+      platform = { aarch64-darwin = "aarch64-apple-darwin"; x86_64-darwin = "x86_64-apple-darwin"; }.${system};
+      sha256 = { aarch64-darwin = sha256:04q704c3gwm7f250z2s16ichk07c0arry65z4n1n760a4n6gcbhi; x86_64-darwin = sha256:1rjqj4gmpx43g30mqgf547kvnfyn0wgyiwrgb6aj6arqpklmdfgz; }.${system};
+      url = "https://downloads.haskell.org/~ghc/${version}/ghc-${version}-${platform}.tar.xz";
+      src = builtins.fetchurl { inherit url sha256; };
+
+      unpacked = lib.runCommand "ghc" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        echo "copying ghc"
+        cp ${src} ./ghc.tar.xz
+        echo "unpacking ghc"
+        tar -xzf ./ghc.tar.xz
+        mkdir -p $out
+        cp -r ./ghc-*/ $out
+      '';
+    in
+    {
+      bin = "${unpacked}/bin";
+    }
+  ;
+
   wasm-pack =
     let
       wasm-pack-src = builtins.fetchTarball {
