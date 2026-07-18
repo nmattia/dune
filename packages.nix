@@ -251,6 +251,30 @@ rec
     }
   ;
 
+  ormolu =
+    let
+      version = "0.8.1.1";
+      platform = { aarch64-darwin = "aarch64-darwin"; x86_64-darwin = "x86_64-darwin"; }.${system};
+      sha256 = { aarch64-darwin = sha256:16cy0hglgcmzaq01xh1p7ldp96a1k2apsm4b6ssfyx27ml3b0b2k; x86_64-darwin = sha256:01mjiig89y1zjcyx6w6hldka4bgclhl899y9ncszwfrbiii2rkhz; }.${system};
+      url = "https://github.com/tweag/ormolu/releases/download/${version}/ormolu-${platform}.zip";
+      src = builtins.fetchurl { inherit url sha256; };
+
+      unpacked = lib.runCommand "ormolu" { } ''
+        export PATH=/usr/sbin:/usr/bin:/bin:/usr/sbin
+        echo "copying ormolu"
+        mkdir -p $out/bin
+        cp ${src} $out/bin/ormolu.zip
+        echo "unpacking ormolu"
+        cd "$out/bin"
+        unzip ormolu.zip
+        rm ormolu.zip
+      '';
+    in
+    {
+      bin = "${unpacked}/bin";
+    }
+  ;
+
   wasm-pack =
     let
       wasm-pack-src = builtins.fetchTarball {
