@@ -1,20 +1,4 @@
 {
-    "clippy-aarch64-apple-darwin": {
-        "rustc-release-date": "2025-09-18",
-        "rustc-version": "1.90.0",
-        "sha256": "0jigmp71iz2w4vxlc6ivpmfidbbnkb754lwqjqxmfhwg0r9jzw2h",
-        "type": "tarball",
-        "url": "https://static.rust-lang.org/dist/2025-09-18/clippy-1.90.0-aarch64-apple-darwin.tar.gz",
-        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-aarch64-apple-darwin.tar.gz"
-    },
-    "clippy-x86_64-apple-darwin": {
-        "rustc-release-date": "2025-09-18",
-        "rustc-version": "1.90.0",
-        "sha256": "1h0l6xmfqxvy8fqn1iz9zsgha7syh94ka9sfkmn1h27jx8mpfisq",
-        "type": "tarball",
-        "url": "https://static.rust-lang.org/dist/2025-09-18/clippy-1.90.0-x86_64-apple-darwin.tar.gz",
-        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-x86_64-apple-darwin.tar.gz"
-    },
     "devbox-amd64-darwin": {
         "sha256": "13pwk7jw7h5zrsknj65cv6j2zaj02mnac2lc5jcczw65hq8mi2rp",
         "type": "file",
@@ -49,6 +33,22 @@
         "url": "https://get.namespace.so/packages/nsc/v0.0.537/nsc_0.0.537_darwin_arm64.tar.gz",
         "url_template": "https://get.namespace.so/packages/nsc/v<version>/nsc_<version>_darwin_arm64.tar.gz",
         "version": "0.0.537"
+    },
+    "rust-clippy-aarch64-apple-darwin": {
+        "rustc-release-date": "2026-07-16",
+        "rustc-version": "1.97.1",
+        "sha256": "1pp22jgmcgzl7vyx5qd2lbxx33cjp1zam6p58jxdba8nkij28n95",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2026-07-16/clippy-1.97.1-aarch64-apple-darwin.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-aarch64-apple-darwin.tar.gz"
+    },
+    "rust-clippy-x86_64-apple-darwin": {
+        "rustc-release-date": "2026-07-16",
+        "rustc-version": "1.97.1",
+        "sha256": "11spxf2jpgvrbgbbmnszs4wmw2pgamyhkgh90f6flrmg34f5p23q",
+        "type": "tarball",
+        "url": "https://static.rust-lang.org/dist/2026-07-16/clippy-1.97.1-x86_64-apple-darwin.tar.gz",
+        "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/clippy-<rustc-version>-x86_64-apple-darwin.tar.gz"
     },
     "rust-src": {
         "rustc-release-date": "2026-07-16",

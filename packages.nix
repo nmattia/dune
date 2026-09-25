@@ -44,7 +44,7 @@ let
       };
 
       clippy = builtins.fetchTarball {
-        inherit (sources."clippy-${platform}") url sha256;
+        inherit (sources."rust-clippy-${platform}") url sha256;
       };
 
     in
