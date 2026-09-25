@@ -116,19 +116,19 @@
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rust-<rustc-version>-x86_64-apple-darwin.pkg"
     },
     "rustfmt-aarch64-apple-darwin": {
-        "rustc-release-date": "2025-09-18",
-        "rustc-version": "1.90.0",
-        "sha256": "0x27by6kcxamll649bjjvkxl6gxcv8igz7c4rk7a2jkzx43avzhw",
+        "rustc-release-date": "2026-07-16",
+        "rustc-version": "1.97.1",
+        "sha256": "0mgsscna4fry76kfwd3b5mwxpqmhffps0dwvj07qh9cs5pwn59m2",
         "type": "tarball",
-        "url": "https://static.rust-lang.org/dist/2025-09-18/rustfmt-1.90.0-aarch64-apple-darwin.tar.gz",
+        "url": "https://static.rust-lang.org/dist/2026-07-16/rustfmt-1.97.1-aarch64-apple-darwin.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rustfmt-<rustc-version>-aarch64-apple-darwin.tar.gz"
     },
     "rustfmt-x86_64-apple-darwin": {
-        "rustc-release-date": "2025-09-18",
-        "rustc-version": "1.90.0",
-        "sha256": "0gm4jg3azcyakffj5q8wz41w1pfvy6fy99s8w6mv7gdvpn536vpd",
+        "rustc-release-date": "2026-07-16",
+        "rustc-version": "1.97.1",
+        "sha256": "1117qzbjhizybaj8hcmdcj6792br4p3045klpis2vc65wrsn3gj9",
         "type": "tarball",
-        "url": "https://static.rust-lang.org/dist/2025-09-18/rustfmt-1.90.0-x86_64-apple-darwin.tar.gz",
+        "url": "https://static.rust-lang.org/dist/2026-07-16/rustfmt-1.97.1-x86_64-apple-darwin.tar.gz",
         "url_template": "https://static.rust-lang.org/dist/<rustc-release-date>/rustfmt-<rustc-version>-x86_64-apple-darwin.tar.gz"
     }
 }
