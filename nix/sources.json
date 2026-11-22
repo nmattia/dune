@@ -20,6 +20,13 @@
         "url_template": "https://gitlab.com/lilypond/lilypond/-/releases/v<version>/downloads/lilypond-<version>-darwin-arm64.tar.gz",
         "version": "2.27.1"
     },
+    "nodejs-arm64-darwin": {
+        "sha256": "1g0xhdg8aqma9hz3s9lc7nxzvx4bxjpbyc9pij1dxnnd2g23bpbq",
+        "type": "tarball",
+        "url": "https://nodejs.org/download/release/v24.13.0/node-v24.13.0-darwin-arm64.tar.gz",
+        "url_template": "https://nodejs.org/download/release/v<version>/node-v<version>-darwin-arm64.tar.gz",
+        "version": "24.13.0"
+    },
     "nsc-amd64-darwin": {
         "sha256": "0wdiwzmh3d90dl4jvzqjc7yq9nh6by1aa4jx2gxsgmg7fc3yw6vg",
         "type": "file",

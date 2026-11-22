@@ -75,13 +75,8 @@ rec
 {
   nodejs =
     let
-      node-version = "v24.13.0";
-      platform = { aarch64-darwin = "darwin-arm64"; x86_64-darwin = "darwin-x64"; }.${system};
-      # eg nix-prefetch-url --unpack 'https://nodejs.org/download/release/v24.13.0/node-v24.13.0-darwin-arm64.tar.gz'
-      sha256 = { aarch64-darwin = sha256:1g0xhdg8aqma9hz3s9lc7nxzvx4bxjpbyc9pij1dxnnd2g23bpbq; x86_64-darwin = sha256:0z6ng471mqm8vqka8gd489cvi5hp0sd2vy8jfz8dsmymyqz2zg93; }.${system};
       node-src = builtins.fetchTarball {
-        url = "https://nodejs.org/download/release/${node-version}/node-${node-version}-${platform}.tar.gz";
-        inherit sha256;
+        inherit (sources."nodejs-arm64-darwin") url sha256;
       };
     in
     { bin = "${node-src}/bin"; };
